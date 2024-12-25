@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Platforms>x64</Platforms>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GenerateDependencyFile>true</GenerateDependencyFile>
+    <OutputPath>D:\FF14\AE\ACR\Magna</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <NoWarn>CA1416,CS1591,CS0618,CS0436,CS8632,CS1998</NoWarn>
+    <UseWindowsForms>true</UseWindowsForms>
+    <!-- <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifie> -->
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="AEAssist">
+      <HintPath>D:\FF14\AE\AEAssistCNVersion\AEAssist\AEAssist.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Dalamud">
+      <HintPath>C:\Users\yelei\AppData\Roaming\XIVLauncherCN\addon\Hooks\dev\Dalamud.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="ImGui.NET">
+      <HintPath>C:\Users\yelei\AppData\Roaming\XIVLauncherCN\addon\Hooks\dev\ImGui.NET.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>
