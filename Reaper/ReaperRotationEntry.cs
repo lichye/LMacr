@@ -42,17 +42,24 @@ public class ReaperRotationEntry : IRotationEntry
         // Gibbet + Gallows
         // single_target_base
         // aoe_base
+
         new(new SlotResolver_GCD_ShadowofDeath(),SlotMode.Gcd),
 
-        new(new SlotResolver_GCD_Reaping(),SlotMode.Gcd),
+        new(new SlotResolver_GCD_PlentifulHarvest(),SlotMode.Gcd),
+
+        new(new SlotResolver_GCD_Perfectio(),SlotMode.Gcd),
+
+        new(new SlotResolver_GCD_Enshroud(),SlotMode.Gcd),
 
         new(new SlotResolver_GCD_Gibbet(),SlotMode.Gcd),
 
         new(new SlotResolver_GCD_SoulSlice(),SlotMode.Gcd),
 
+        new(new SlotResolver_GCD_AOE_Base(),SlotMode.Gcd),
+
         new(new SlotResolver_GCD_Base(),SlotMode.Gcd),
 
-        new(new SlotResolver_GCD_AOE_Base(),SlotMode.Gcd),
+        
         
 
         // gcd队列
@@ -69,11 +76,11 @@ public class ReaperRotationEntry : IRotationEntry
         // Gluttony
         // BloodStalk
 
-        // new (new SlotResolver_OffGCD_ArcaneCircle(),SlotMode.OffGcd),
+        new (new SlotResolver_OffGCD_ArcaneCircle(),SlotMode.OffGcd),
         new (new SlotResolver_OffGCD_Enshroud(),SlotMode.OffGcd),
         new (new SlotResolver_OffGCD_Sacrificium(),SlotMode.OffGcd),
         // new (new SlotResolver_OffGCD_TrueNorth(),SlotMode.OffGcd),
-        // new (new SlotResolver_OffGCD_Lemure(),SlotMode.OffGcd),
+        new (new SlotResolver_OffGCD_Lemure(),SlotMode.OffGcd),
         new (new SlotResolver_OffGCD_Gluttony(),SlotMode.OffGcd),
         new (new SlotResolver_OffGCD_BloodStalk(),SlotMode.OffGcd),
     };
@@ -81,17 +88,15 @@ public class ReaperRotationEntry : IRotationEntry
 
     public Rotation Build(string settingFolder)
     {
-        // 初始化设置
         ReaperSettings.Build(settingFolder);
-        // 初始化QT （依赖了设置的数据）
         BuildQT();
 
 
         var rot = new Rotation(SlotResolvers)
         {
             TargetJob = Jobs.Reaper,
-            AcrType = AcrType.HighEnd,
-            MinLevel = 100,
+            AcrType = AcrType.Normal,
+            MinLevel = 1,
             MaxLevel = 100,
             Description = "Reaper测试版",
         };
@@ -133,23 +138,23 @@ public class ReaperRotationEntry : IRotationEntry
         QT.AddTab("Dev", DrawQtDev);
 
         // 添加QT开关 第二个参数是默认值 (开or关) 第三个参数是鼠标悬浮时的tips
-        QT.AddQt(QTKey.UsePotion, true);
-        QT.AddQt(QTKey.Burst, true);
-        QT.AddQt(QTKey.AOE, false);
+        // QT.AddQt(QTKey.UsePotion, true);
+        // QT.AddQt(QTKey.Burst, true);
+        QT.AddQt(QTKey.AOE, true);
 
 
-        QT.AddQt(QTKey.Gluttony, true);
-        QT.AddQt(QTKey.BloodStalk, true);
-        QT.AddQt(QTKey.Enshroud, true);
-
-        QT.AddQt(QTKey.ShadowofDeath, true);
-        QT.AddQt(QTKey.poscheak, true);
-        QT.AddQt(QTKey.UseTrueNorth, false);
-        QT.AddQt(QTKey.Enshroud_first, false);
+        // QT.AddQt(QTKey.Gluttony, true);
+        // QT.AddQt(QTKey.BloodStalk, true);
+        // QT.AddQt(QTKey.Enshroud, true);
 
         // QT.AddQt(QTKey.ShadowofDeath, true);
-        QT.AddQt(QTKey.PlentifulHarvest, true);
-        QT.AddQt(QTKey.FinalBurst, false);
+        // QT.AddQt(QTKey.poscheak, true);
+        // QT.AddQt(QTKey.UseTrueNorth, false);
+        // QT.AddQt(QTKey.Enshroud_first, false);
+
+        // // QT.AddQt(QTKey.ShadowofDeath, true);
+        // QT.AddQt(QTKey.PlentifulHarvest, true);
+        // QT.AddQt(QTKey.FinalBurst, false);
 
 
 

@@ -9,8 +9,6 @@ namespace LM.Reaper.SlotResolvers.GCD;
 
 public class SlotResolver_GCD_Perfectio : ISlotResolver
 {
-
-    // 返回>=0表示检测通过 即将调用Build方法
     public int Check()
     {
         if (!SpellsDefine.Perfectio.IsUnlock())
@@ -22,7 +20,6 @@ public class SlotResolver_GCD_Perfectio : ISlotResolver
         return 0;
     }
 
-    // 将指定技能加入技能队列中
     public void Build(Slot slot)
     {
         slot.Add(SpellsDefine.Perfectio.GetSpell());

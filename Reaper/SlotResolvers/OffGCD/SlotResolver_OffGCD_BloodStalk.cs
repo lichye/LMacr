@@ -47,8 +47,8 @@ public class SlotResolver_OffGCD_BloodStalk : ISlotResolver
             return -3;
         
         //if we turn off the QT of BloodStalk, we will not use this solver
-        if (ReaperRotationEntry.QT.GetQt(QTKey.BloodStalk) == false)
-            return -4;
+        // if (ReaperRotationEntry.QT.GetQt(QTKey.BloodStalk) == false)
+        //     return -4;
         
         //if we have the aura of SoulReaver or Executioner, we will not use this solver
         if (Core.Me.HasAura(AurasDefine.SoulReaver) || Core.Me.HasAura(AurasDefine.Executioner))

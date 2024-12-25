@@ -51,7 +51,9 @@ public class Reaper_Opener100 : IOpener
     {
         ChatHelper.Print.ErrorMessage("0");
         slot.Add(new Spell(SpellsDefine.ShadowOfDeath, SpellTargetType.Target));
-        if (ReaperRotationEntry.QT.GetQt(QTKey.UsePotion) == true && !ReaperSettings.Instance.OpenerNoPos)
+        if (
+            // ReaperRotationEntry.QT.GetQt(QTKey.UsePotion) == true && 
+            !ReaperSettings.Instance.OpenerNoPos)
         {
             slot.Add(Spell.CreatePotion());
         }

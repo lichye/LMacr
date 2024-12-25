@@ -22,8 +22,8 @@ public class DoubleEnshroundSequence : ISlotSequence
             return -5;
         if (!SpellsDefine.Enshroud.IsReady())
             return -1;
-        if (ReaperRotationEntry.QT.GetQt(QTKey.Burst) == false)
-            return -2;
+        // if (ReaperRotationEntry.QT.GetQt(QTKey.Burst) == false)
+        //     return -2;
         if (Core.Resolve<JobApi_Reaper>().ShroudGauge < 50)
             return -1;
         if (Core.Me.HasAura(AurasDefine.SoulReaver))

@@ -13,8 +13,8 @@ public class SlotResolver_OffGCD_ArcaneCircle : ISlotResolver
 
         if (!SpellsDefine.ArcaneCircle.IsReady())
             return -1;
-        if (ReaperRotationEntry.QT.GetQt(QTKey.Burst) == false)
-        return -2;
+        // if (ReaperRotationEntry.QT.GetQt(QTKey.Burst) == false)
+        // return -2;
 
         return 0;
     }

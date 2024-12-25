@@ -11,6 +11,13 @@ namespace LM.Reaper.SlotResolvers.OffGCD;
 
 public class SlotResolver_OffGCD_Lemure : ISlotResolver
 {
+    private Spell GetSpell()
+    {
+        var aoeCount = TargetHelper.GetNearbyEnemyCount(Core.Me, 5, 5);
+        if (aoeCount >= 3 || ReaperRotationEntry.QT.GetQt(QTKey.AOE))
+            return SpellsDefine.LemuresScythe.GetSpell();
+        return SpellsDefine.LemuresSlice.GetSpell();
+    }
     public int Check()
     {
         if (Core.Resolve<JobApi_Reaper>().VoidShroud < 2)
@@ -24,6 +31,6 @@ public class SlotResolver_OffGCD_Lemure : ISlotResolver
 
     public void Build(Slot slot)
     {
-        slot.Add(Core.Resolve<MemApiSpell>().CheckActionChange(SpellsDefine.LemuresSlice.GetSpell().Id).GetSpell());
+        slot.Add(GetSpell());
     }
 }

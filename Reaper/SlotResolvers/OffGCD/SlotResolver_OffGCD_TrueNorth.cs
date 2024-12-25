@@ -16,10 +16,10 @@ public class SlotResolver_OffGCD_TrueNorth : ISlotResolver
     {
         if (GCDHelper.GetGCDCooldown() < 600)
             return -2;
-        if (!ReaperRotationEntry.QT.GetQt(QTKey.UseTrueNorth))//真北开关
-        {
-            return -10;
-        }
+        // if (!ReaperRotationEntry.QT.GetQt(QTKey.UseTrueNorth))//真北开关
+        // {
+        //     return -10;
+        // }
         if (!SpellsDefine.TrueNorth.IsReady())//真北CD好了没
         {
             return -9;

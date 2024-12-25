@@ -26,8 +26,8 @@ public class SlotResolver_OffGCD_Gluttony : ISlotResolver
             return -2;
         
         //if we do not open the Gluttony QT, we will not use this solver
-        if (ReaperRotationEntry.QT.GetQt(QTKey.Gluttony) == false)
-            return -13;
+        // if (ReaperRotationEntry.QT.GetQt(QTKey.Gluttony) == false)
+        //     return -13;
         
         //if the Gluttony skill is not ready, we will not use this solver
         if (!SpellsDefine.Gluttony.IsReady())
@@ -44,7 +44,11 @@ public class SlotResolver_OffGCD_Gluttony : ISlotResolver
         
         if (Core.Me.HasAura(AurasDefine.ImmortalSacrifice))
             return -3;
-        if (SpellsDefine.Enshroud.GetSpell().Cooldown.TotalMilliseconds != 0 && SpellsDefine.Enshroud.GetSpell().Cooldown.TotalMilliseconds <= 1000 && ReaperRotationEntry.QT.GetQt(QTKey.Burst) != false && ReaperRotationEntry.QT.GetQt(QTKey.Enshroud) != false &&
+        if (SpellsDefine.Enshroud.GetSpell().Cooldown.TotalMilliseconds != 0 && 
+            SpellsDefine.Enshroud.GetSpell().Cooldown.TotalMilliseconds <= 1000 && 
+        // ReaperRotationEntry.QT.GetQt(QTKey.Burst) != false 
+        //  && ReaperRotationEntry.QT.GetQt(QTKey.Enshroud) != false &&
+
             (Core.Resolve<JobApi_Reaper>().ShroudGauge >= 50 || Core.Me.HasAura(AurasDefine.IdealHost)))
             return -4;
         if (Core.Me.HasAura(AurasDefine.ArcaneCircle) && SpellsDefine.Enshroud.IsReady())

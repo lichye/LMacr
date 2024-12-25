@@ -12,9 +12,6 @@ public class SlotResolver_GCD_Enshroud : ISlotResolver
 {
     private Spell GetSpell()
     {
-        if (!Core.Me.HasAura(AurasDefine.Enshrouded))
-            return null;
-
         if (Core.Resolve<JobApi_Reaper>().LemureShroud < 2
             && SpellsDefine.Communio.IsUnlock())
             return SpellsDefine.Communio.GetSpell();
@@ -25,24 +22,24 @@ public class SlotResolver_GCD_Enshroud : ISlotResolver
         if (Core.Me.HasAura(AurasDefine.EnhancedCrossReaping))
             return SpellsDefine.CrossReaping.GetSpell();
 
-
-        if (SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds <= 5000 && ReaperRotationEntry.QT.GetQt(QTKey.Burst) == true )
-        return SpellsDefine.ShadowOfDeath.GetSpell(); ;
-
         return SpellsDefine.VoidReaping.GetSpell();
     }
-    // 返回>=0表示检测通过 即将调用Build方法
     public int Check()
     {
+        // Check if we can touch the target
+        if (Core.Me.Distance(Core.Me.GetCurrTarget()) >
+            SettingMgr.GetSetting<GeneralSettings>().AttackRange)
+            return -1;
+
         if (Core.Resolve<JobApi_Reaper>().LemureShroud == 0)
-            return -4;
-        if (!Core.Me.HasAura(AurasDefine.Enshrouded))
             return -2;
+        
+        if (!Core.Me.HasAura(AurasDefine.Enshrouded))
+            return -3;
 
         return 0;
     }
 
-    // 将指定技能加入技能队列中
     public void Build(Slot slot)
     {
         slot.Add(GetSpell());
