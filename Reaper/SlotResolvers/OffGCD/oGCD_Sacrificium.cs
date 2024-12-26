@@ -9,7 +9,7 @@ using AEAssist.JobApi;
 
 namespace LM.Reaper.SlotResolvers.OffGCD;
 
-public class SlotResolver_OffGCD_Sacrificium : ISlotResolver
+public class oGCD_Sacrificium : ISlotResolver
 {
     public int Check()
     {

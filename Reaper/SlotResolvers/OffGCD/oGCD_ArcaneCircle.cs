@@ -6,7 +6,7 @@ using AEAssist.MemoryApi;
 
 namespace LM.Reaper.SlotResolvers.OffGCD;
 
-public class SlotResolver_OffGCD_ArcaneCircle : ISlotResolver
+public class oGCD_ArcaneCircle : ISlotResolver
 {
     public int Check()
     {

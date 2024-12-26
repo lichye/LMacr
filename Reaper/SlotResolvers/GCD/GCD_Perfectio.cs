@@ -7,7 +7,7 @@ using AEAssist.Extension;
 
 namespace LM.Reaper.SlotResolvers.GCD;
 
-public class SlotResolver_GCD_Perfectio : ISlotResolver
+public class GCD_Perfectio : ISlotResolver
 {
     public int Check()
     {

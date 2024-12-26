@@ -8,7 +8,7 @@ using AEAssist.JobApi;
 
 namespace LM.Reaper.SlotResolvers.GCD;
 
-public class SlotResolver_GCD_SoulSlice : ISlotResolver
+public class GCD_SoulSlice : ISlotResolver
 {
     // In the current slot, the skill is added to the slot
     // SouldScythe Lv.65

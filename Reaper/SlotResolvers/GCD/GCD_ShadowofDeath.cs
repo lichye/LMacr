@@ -9,7 +9,7 @@ using System.CodeDom;
 
 namespace LM.Reaper.SlotResolvers.GCD;
 
-public class SlotResolver_GCD_ShadowofDeath : ISlotResolver
+public class GCD_ShadowofDeath : ISlotResolver
 {
     //In this slot resolver，we will use one of the following skills:
     // WhorlOfDeath

@@ -8,7 +8,7 @@ using AEAssist.JobApi;
 
 namespace LM.Reaper.SlotResolvers.GCD;
 
-public class SlotResolver_GCD_Gibbet : ISlotResolver
+public class GCD_Gibbet : ISlotResolver
 {
     //In this slot resolver，we will use one of the following skills:
     // Guillotine Lv.70

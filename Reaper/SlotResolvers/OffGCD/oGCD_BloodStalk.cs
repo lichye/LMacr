@@ -9,7 +9,7 @@ using static System.Windows.Forms.Design.AxImporter;
 
 namespace LM.Reaper.SlotResolvers.OffGCD;
 
-public class SlotResolver_OffGCD_BloodStalk : ISlotResolver
+public class oGCD_BloodStalk : ISlotResolver
 {
     //In this slot resolver，we will use one of the following skills:
     // BloodStalk Lv.50

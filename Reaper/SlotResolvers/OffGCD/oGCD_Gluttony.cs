@@ -9,8 +9,14 @@ using AEAssist.JobApi;
 
 namespace LM.Reaper.SlotResolvers.OffGCD;
 
-public class SlotResolver_OffGCD_Gluttony : ISlotResolver
+public class offGCD_Gluttony : ISlotResolver
 {
+    //In this slot resolver，we will use one of the following skills:
+    // Gluttony Lv.76
+    private Spell GetSpell()
+    {
+        return SpellsDefine.Gluttony.GetSpell();
+    }
     public int Check()
     {    
         //if we are not level 76, we will not use this solver
@@ -58,6 +64,6 @@ public class SlotResolver_OffGCD_Gluttony : ISlotResolver
 
     public void Build(Slot slot)
     {
-        slot.Add(SpellsDefine.Gluttony.GetSpell());
+        slot.Add(GetSpell());
     }
 }

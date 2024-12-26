@@ -7,7 +7,7 @@ using AEAssist.Extension;
 
 namespace LM.Reaper.SlotResolvers.GCD;
 
-public class SlotResolver_GCD_PlentifulHarvest : ISlotResolver
+public class GCD_PlentifulHarvest : ISlotResolver
 {
     
     public int Check()

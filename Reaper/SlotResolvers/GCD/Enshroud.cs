@@ -8,7 +8,7 @@ using AEAssist.JobApi;
 
 namespace LM.Reaper.SlotResolvers.GCD;
 
-public class SlotResolver_GCD_Enshroud : ISlotResolver
+public class GCD_Enshroud : ISlotResolver
 {
     private Spell GetSpell()
     {

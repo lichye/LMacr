@@ -7,7 +7,7 @@ using AEAssist.Extension;
 
 namespace LM.Reaper.SlotResolvers.GCD;
 
-public class SlotResolver_GCD_AOE_Base:ISlotResolver
+public class GCD_AOE:ISlotResolver
 {
     //In this slot resolver，we will use one of the following skills:
     // SpinningScythe

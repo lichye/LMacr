@@ -7,7 +7,7 @@ using AEAssist.Extension;
 
 namespace LM.Reaper.SlotResolvers.GCD;
 
-public class SlotResolver_GCD_Base : ISlotResolver
+public class GCD_Base : ISlotResolver
 {
     //In this slot resolver，we will use one of the following skills:
     // Slice

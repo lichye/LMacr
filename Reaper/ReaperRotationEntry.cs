@@ -43,32 +43,21 @@ public class ReaperRotationEntry : IRotationEntry
         // single_target_base
         // aoe_base
 
-        new(new SlotResolver_GCD_ShadowofDeath(),SlotMode.Gcd),
+        new(new GCD_ShadowofDeath(),SlotMode.Gcd),
 
-        new(new SlotResolver_GCD_PlentifulHarvest(),SlotMode.Gcd),
+        new(new GCD_PlentifulHarvest(),SlotMode.Gcd),
 
-        new(new SlotResolver_GCD_Perfectio(),SlotMode.Gcd),
+        new(new GCD_Perfectio(),SlotMode.Gcd),
 
-        new(new SlotResolver_GCD_Enshroud(),SlotMode.Gcd),
+        new(new GCD_Enshroud(),SlotMode.Gcd),
 
-        new(new SlotResolver_GCD_Gibbet(),SlotMode.Gcd),
+        new(new GCD_Gibbet(),SlotMode.Gcd),
 
-        new(new SlotResolver_GCD_SoulSlice(),SlotMode.Gcd),
+        new(new GCD_SoulSlice(),SlotMode.Gcd),
 
-        new(new SlotResolver_GCD_AOE_Base(),SlotMode.Gcd),
+        new(new GCD_AOE(),SlotMode.Gcd),
 
-        new(new SlotResolver_GCD_Base(),SlotMode.Gcd),
-
-        
-        
-
-        // gcd队列
-        // new(new SlotResolver_GCD_Perfectio(),SlotMode.Gcd),
-
-        // new(new SlotResolver_GCD_Enshroud(),SlotMode.Gcd),
-        // new(new SlotResolver_GCD_PlentifulHarvest(),SlotMode.Gcd),
-        // new(new SlotResolver_GCD_Gibbet(),SlotMode.Gcd),
-        // new(new SlotResolver_GCD_SoulSlice(),SlotMode.Gcd),
+        new(new GCD_Base(),SlotMode.Gcd),
         
         // ogcd lists
         // the order be like：
@@ -76,13 +65,12 @@ public class ReaperRotationEntry : IRotationEntry
         // Gluttony
         // BloodStalk
 
-        new (new SlotResolver_OffGCD_ArcaneCircle(),SlotMode.OffGcd),
-        new (new SlotResolver_OffGCD_Enshroud(),SlotMode.OffGcd),
-        new (new SlotResolver_OffGCD_Sacrificium(),SlotMode.OffGcd),
-        // new (new SlotResolver_OffGCD_TrueNorth(),SlotMode.OffGcd),
-        new (new SlotResolver_OffGCD_Lemure(),SlotMode.OffGcd),
-        new (new SlotResolver_OffGCD_Gluttony(),SlotMode.OffGcd),
-        new (new SlotResolver_OffGCD_BloodStalk(),SlotMode.OffGcd),
+        new (new oGCD_ArcaneCircle(),SlotMode.OffGcd),
+        new (new oGCD_Enshroud(),SlotMode.OffGcd),
+        new (new oGCD_Sacrificium(),SlotMode.OffGcd),
+        new (new oGCD_Lemure(),SlotMode.OffGcd),
+        new (new offGCD_Gluttony(),SlotMode.OffGcd),
+        new (new oGCD_BloodStalk(),SlotMode.OffGcd),
     };
 
 
@@ -143,22 +131,6 @@ public class ReaperRotationEntry : IRotationEntry
         QT.AddQt(QTKey.AOE, true);
 
 
-        // QT.AddQt(QTKey.Gluttony, true);
-        // QT.AddQt(QTKey.BloodStalk, true);
-        // QT.AddQt(QTKey.Enshroud, true);
-
-        // QT.AddQt(QTKey.ShadowofDeath, true);
-        // QT.AddQt(QTKey.poscheak, true);
-        // QT.AddQt(QTKey.UseTrueNorth, false);
-        // QT.AddQt(QTKey.Enshroud_first, false);
-
-        // // QT.AddQt(QTKey.ShadowofDeath, true);
-        // QT.AddQt(QTKey.PlentifulHarvest, true);
-        // QT.AddQt(QTKey.FinalBurst, false);
-
-
-
-
         // 添加快捷按钮 (带技能图标)
         /*QT.AddHotkey("战斗之声",
             new HotKeyResolver_NormalSpell(SpellsDefine.BattleVoice, SpellTargetType.Self));
@@ -200,11 +172,6 @@ public class ReaperRotationEntry : IRotationEntry
         ImGui.Text("3.完成QT的开发");
         ImGui.Text("4.添加更多的开场");
         ImGui.Text("5.更好的暴食释放时机");
-        // ImGui.Text("GCD:" + GCDHelper.GetGCDCooldown() + "/" + GCDHelper.GetGCDDuration());
-        // ImGui.Text("易伤:" + Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign, 100));
-        // ImGui.Text("上一次中断:" + ReaperRotationEventHandler.times + "s");
-        // ImGui.Text("大丰收RecentlyUsed:" + SpellsDefine.PlentifulHarvest.RecentlyUsed(1000));
-
     }
 
     public void DrawQtDev(JobViewWindow jobViewWindow)

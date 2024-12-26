@@ -2,9 +2,15 @@
 1. 添加技能：收获月
 2. 可选的动画锁
 3. 更多的开场 Lv70 Lv80 Lv90
-4. 更好的释放时机 - 暴食
+4. 更好的释放时机
+    4.1 暴食
+    4.2 
 5. 身位指示器
 6. QT支持
 7. 钦定时间轴
 
 
+ // ImGui.Text("GCD:" + GCDHelper.GetGCDCooldown() + "/" + GCDHelper.GetGCDDuration());
+        // ImGui.Text("易伤:" + Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign, 100));
+        // ImGui.Text("上一次中断:" + ReaperRotationEventHandler.times + "s");
+        // ImGui.Text("大丰收RecentlyUsed:" + SpellsDefine.PlentifulHarvest.RecentlyUsed(1000));
