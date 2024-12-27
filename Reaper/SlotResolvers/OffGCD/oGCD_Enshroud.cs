@@ -34,12 +34,12 @@ public class oGCD_Enshroud : ISlotResolver
         if (Core.Resolve<JobApi_Reaper>().ShroudGauge < 50 && !Core.Me.HasAura(AurasDefine.IdealHost))
             return -4;
 
-        /*if (RPRSettings.Instance.EnshroundPotion3 && RPRSettings.Instance.DoubleEnshroundPotion &&
-            Core.Resolve<MemApiInventory>().GetItemCount(SettingMgr.GetSetting<PotionSetting>().GetPotionId(Core.Me.CurrentJob), true) != 0 &&
-            Core.Resolve<MemApiInventory>().GetItemCoolDown(SettingMgr.GetSetting<PotionSetting>().GetPotionId(Core.Me.CurrentJob)).TotalMilliseconds 
-            <= SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds)
-            return -9;*/
-        return 0;
+        // If we have the Immortal Sacrifice buff and we has skill ready, then we should use enshroud as soon as possible
+        if (Core.Me.HasAura(AurasDefine.ImmortalSacrifice))
+            return 1;
+
+        //Normal, we will not use the enshroud
+        return -1;
     }
 
     public void Build(Slot slot)

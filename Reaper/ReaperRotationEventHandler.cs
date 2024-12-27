@@ -22,9 +22,6 @@ public class ReaperRotationEventHandler : IRotationEventHandler
 
     public void OnResetBattle()
     {
-        // QT的设置重置为默认值
-        ReaperRotationEntry.QT.Reset();
-
         // 重置战斗中缓存的数据
         ReaperBattleData.Instance = new();
         times = 0;

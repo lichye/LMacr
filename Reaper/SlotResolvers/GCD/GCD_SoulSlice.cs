@@ -36,8 +36,8 @@ public class GCD_SoulSlice : ISlotResolver
         if (Core.Resolve<JobApi_Reaper>().SoulGauge > 50)
             return -2;
         
-        // Check if we have the Soul Reaver buff
-        if (Core.Me.HasAura(AurasDefine.SoulReaver))
+        // Check if we have the Soul Reaver buff or Executioner buff
+        if (Core.Me.HasAura(AurasDefine.SoulReaver)||Core.Me.HasAura(AurasDefine.Executioner))
             return -3;
         
         // Check if we can touch the target
@@ -50,8 +50,6 @@ public class GCD_SoulSlice : ISlotResolver
             if (Core.Resolve<MemApiSpell>().GetLastComboSpellId() == SpellsDefine.Slice ||
                 Core.Resolve<MemApiSpell>().GetLastComboSpellId() == SpellsDefine.WaxingSlice)
                 return -5;
-        //TODO:
-        //Add more checks here
         return 0;
     }
 

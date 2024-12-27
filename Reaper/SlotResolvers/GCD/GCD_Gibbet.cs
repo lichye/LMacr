@@ -12,8 +12,8 @@ public class GCD_Gibbet : ISlotResolver
 {
     //In this slot resolver，we will use one of the following skills:
     // Guillotine Lv.70
-    // Gibbet Lv.70
-    // Gallows Lv.70
+    // Gibbet Lv.70 attack from the side
+    // Gallows Lv.70 attack from the back
 
     private Spell GetSpell()
     {
@@ -24,10 +24,6 @@ public class GCD_Gibbet : ISlotResolver
                 return SpellsDefine.Guillotine.GetSpell();
         }
 
-        // Two back attacks
-        
-        
-        
         // Two side attacks
         if(Core.Me.HasAura(AurasDefine.EnhancedGallows) && 
             Core.Me.HasAura(AurasDefine.Executioner) &&
@@ -76,6 +72,8 @@ public class GCD_Gibbet : ISlotResolver
         //if we have the EnhancedGibbet and we are not flanking the target, we will not use this solver
         if (Core.Me.HasAura(AurasDefine.EnhancedGibbet) && !Core.Resolve<MemApiTarget>().IsFlanking)
             return -5;
+        
+        
         
         return 0;
     }

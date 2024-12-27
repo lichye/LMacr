@@ -45,12 +45,13 @@ public class ReaperSettings
     }
     #endregion
 
-    public bool OpenerTrueNorth = true;
-    public bool BaseGCD_BehindFirst = true;
-    public bool OpenerNoPos = true;
-    public bool Debug = true;
-    public int Harpe_time = 1300;//真北
+    public bool DoubleEnshroud = false;
 
+    public bool OpenerNoPos = true;
+
+    public bool BaseGCD_BehindFirst = true;
+
+    public int Harpe_time = 5000;
     public JobViewSave JobViewSave = new(); // QT设置存档
 
 }

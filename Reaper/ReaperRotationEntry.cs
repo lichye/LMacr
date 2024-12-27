@@ -38,9 +38,17 @@ public class ReaperRotationEntry : IRotationEntry
     {
         // gcd lists
         // the order be like：
+
         // shadowofdead
+        
+        // PentifulHarvest
+
+        // Perfectio
+
         // Gibbet + Gallows
+        
         // single_target_base
+        
         // aoe_base
 
         new(new GCD_ShadowofDeath(),SlotMode.Gcd),
@@ -49,7 +57,9 @@ public class ReaperRotationEntry : IRotationEntry
 
         new(new GCD_Perfectio(),SlotMode.Gcd),
 
-        new(new GCD_Enshroud(),SlotMode.Gcd),
+        new(new GCD_Reaping(),SlotMode.Gcd),
+
+        new(new GCD_HarvestMoon(),SlotMode.Gcd),
 
         new(new GCD_Gibbet(),SlotMode.Gcd),
 
@@ -60,16 +70,33 @@ public class ReaperRotationEntry : IRotationEntry
         new(new GCD_Base(),SlotMode.Gcd),
         
         // ogcd lists
+        
         // the order be like：
+
+        // Enshroud
+        
+        // Gemdraught 
+        // slot.Add(Spell.CreatePotion());
+
         // Sacrificium
+        
+        // Lemure
+
         // Gluttony
+
         // BloodStalk
+        
+        
+        new (new oGCD_Enshroud(),SlotMode.OffGcd),
 
         new (new oGCD_ArcaneCircle(),SlotMode.OffGcd),
-        new (new oGCD_Enshroud(),SlotMode.OffGcd),
+        
         new (new oGCD_Sacrificium(),SlotMode.OffGcd),
+
         new (new oGCD_Lemure(),SlotMode.OffGcd),
+
         new (new offGCD_Gluttony(),SlotMode.OffGcd),
+
         new (new oGCD_BloodStalk(),SlotMode.OffGcd),
     };
 
@@ -78,34 +105,24 @@ public class ReaperRotationEntry : IRotationEntry
     {
         ReaperSettings.Build(settingFolder);
         BuildQT();
-
-
         var rot = new Rotation(SlotResolvers)
         {
             TargetJob = Jobs.Reaper,
-            AcrType = AcrType.Normal,
+            AcrType = AcrType.Both,
             MinLevel = 1,
             MaxLevel = 100,
             Description = "Reaper测试版",
         };
 
-        // 添加各种事件回调
         rot.AddOpener(GetOpener);
         rot.SetRotationEventHandler(new ReaperRotationEventHandler());
-        
-        // 添加QT开关的时间轴行为
         rot.AddTriggerAction(new TriggerAction_QT());
-        // rot.AddSlotSequences(new DoubleEnshroundSequence());
-
         return rot;
     }
 
     IOpener? GetOpener(uint level)
     {
         return null;
-        // if (level < 100)
-        //     return null;
-        // return new Reaper_Opener100();
     }
     
     public IRotationUI GetRotationUI()
@@ -113,22 +130,21 @@ public class ReaperRotationEntry : IRotationEntry
         return QT;
     }
 
-    // 构造函数里初始化QT
     public void BuildQT()
     {
-        // JobViewSave是AE底层提供的QT设置存档类 在你自己的设置里定义即可
-        // 第二个参数是你设置文件的Save类 第三个参数是QT窗口标题
-        QT = new JobViewWindow(ReaperSettings.Instance.JobViewSave, ReaperSettings.Instance.Save, "LM Reaper[测试版]");
+        QT = new JobViewWindow(ReaperSettings.Instance.JobViewSave, ReaperSettings.Instance.Save, "LM Reaper-V0.5");
         QT.SetUpdateAction(OnUIUpdate); // 设置QT中的Update回调 不需要就不设置
 
         //添加QT分页 第一个参数是分页标题 第二个是分页里的内容
         QT.AddTab("通用", DrawQtGeneral);
-        QT.AddTab("Dev", DrawQtDev);
+        // QT.AddTab("Dev", DrawQtDev);
 
         // 添加QT开关 第二个参数是默认值 (开or关) 第三个参数是鼠标悬浮时的tips
         // QT.AddQt(QTKey.UsePotion, true);
         // QT.AddQt(QTKey.Burst, true);
+        
         QT.AddQt(QTKey.AOE, true);
+        QT.AddQt(QTKey.HarvestMoon, true);
 
 
         // 添加快捷按钮 (带技能图标)
@@ -164,32 +180,32 @@ public class ReaperRotationEntry : IRotationEntry
 
     public void DrawQtGeneral(JobViewWindow jobViewWindow)
     {   
-        ImGui.Text("目前QT不可用");
-
-        ImGui.Text("施工计划：");
-        ImGui.Text("1.添加更多的技能");
-        ImGui.Text("2.可选的动画锁定");
-        ImGui.Text("3.完成QT的开发");
-        ImGui.Text("4.添加更多的开场");
-        ImGui.Text("5.更好的暴食释放时机");
+        ImGui.Text("LM Reaper-V0.5");
+        ImGui.Text("作者: LM");
+        ImGui.Text("玩好镰刀的关键在怎么开附体");
+        // ImGui.Text("施工计划：");
+        // ImGui.Text("1.添加更多的技能");
+        // ImGui.Text("2.可选的动画锁定");
+        // ImGui.Text("3.完成QT的开发");
+        // ImGui.Text("4.添加更多的开场");
+        // ImGui.Text("5.更好的暴食释放时机");
     }
 
-    public void DrawQtDev(JobViewWindow jobViewWindow)
-    {
-        ImGui.Text("画Dev信息");
-        foreach (var v in jobViewWindow.GetQtArray())
-        {
-            ImGui.Text($"Qt按钮: {v}");
-        }
+    // public void DrawQtDev(JobViewWindow jobViewWindow)
+    // {
+    //     ImGui.Text("画Dev信息");
+    //     foreach (var v in jobViewWindow.GetQtArray())
+    //     {
+    //         ImGui.Text($"Qt按钮: {v}");
+    //     }
 
-        foreach (var v in jobViewWindow.GetHotkeyArray())
-        {
-            ImGui.Text($"Hotkey按钮: {v}");
-        }
-    }
+    //     foreach (var v in jobViewWindow.GetHotkeyArray())
+    //     {
+    //         ImGui.Text($"Hotkey按钮: {v}");
+    //     }
+    // }
 
     public void Dispose()
     {
-        // 释放需要释放的东西 没有就留空
     }
 }

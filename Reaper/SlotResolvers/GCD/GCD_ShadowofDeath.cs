@@ -34,41 +34,20 @@ public class GCD_ShadowofDeath : ISlotResolver
     {   
         //if we are not level 10, we will not use this solver
         if (Core.Me.Level < 10)
-            return -20;
+            return -1;
 
         //if we cannot touch the target, we will not use this solver    
         if (Core.Me.Distance(Core.Me.GetCurrTarget()) > SettingMgr.GetSetting<GeneralSettings>().AttackRange)
-            return -10;
+            return -2;
             
         //if we has the SoulReaver or Executioner buff, we will not use this solver
         if (Core.Me.HasAura(AurasDefine.SoulReaver) || Core.Me.HasAura(AurasDefine.Executioner))
-            return -21;
+            return -3;    
+
+        //if the target will not have the DeathsDesign debuff in the next 1 seconds, we will use the ShadowOfDeath skill
+        if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign, 1000))
+            return 1;
         
-        //if we has used BloodStalk or Gluttony in the last 1.5 seconds, we will not use this solver
-        if (SpellsDefine.BloodStalk.RecentlyUsed(1500) || SpellsDefine.Gluttony.RecentlyUsed(1500))
-            return -22;
-
-        
-        // if (ReaperRotationEntry.QT.GetQt(QTKey.ShadowofDeath) == false)
-        //     return -3;
-
-
-        //if the ArcaneCircle skill is in cooldown, we will use the ShadowOfDeath skill
-        if (SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds >= 10000)
-        {   
-            //if the target does not have the DeathsDesign debuff, we will use the ShadowOfDeath skill
-            if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign, GCDHelper.GetGCDDuration() + GCDHelper.GetGCDCooldown() + 200))
-                return 1;
-        }
-
-        //if the target will not have the DeathsDesign debuff in the next 5 seconds, we will use the ShadowOfDeath skill
-        if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign, 5000))
-            return 2;
-
-        // if (Core.Resolve<MemApiBuff>().GetAuraTimeleft(Core.Me.GetCurrTarget(), AurasDefine.DeathsDesign, true) - SpellsDefine.Gluttony.GetSpell().Cooldown.TotalMilliseconds > 0 &&
-        //    Core.Resolve<MemApiBuff>().GetAuraTimeleft(Core.Me.GetCurrTarget(), AurasDefine.DeathsDesign, true) - SpellsDefine.Gluttony.GetSpell().Cooldown.TotalMilliseconds < 5000 &&
-        //    SpellsDefine.Gluttony.GetSpell().Cooldown.TotalMilliseconds < 30000)
-        //     return 3;
 
         return -1;
     }

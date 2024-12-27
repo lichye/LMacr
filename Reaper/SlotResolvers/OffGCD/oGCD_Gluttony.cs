@@ -21,23 +21,19 @@ public class offGCD_Gluttony : ISlotResolver
     {    
         //if we are not level 76, we will not use this solver
         if (Core.Me.Level < 76)
-            return -20;
+            return -1;
         
         //if we don't have the SoulGauge, we will not use this solver
         if (Core.Resolve<JobApi_Reaper>().SoulGauge < 50)
-            return -11;
+            return -2;
         
         //if we can't use GCD, we will not use this solver
         if (GCDHelper.GetGCDCooldown() < 600)
-            return -2;
-        
-        //if we do not open the Gluttony QT, we will not use this solver
-        // if (ReaperRotationEntry.QT.GetQt(QTKey.Gluttony) == false)
-        //     return -13;
+            return -3;
         
         //if the Gluttony skill is not ready, we will not use this solver
         if (!SpellsDefine.Gluttony.IsReady())
-            return -12;
+            return -4;
         
         //if the target does not have the DeathsDesign debuff, we will not use this solver
         if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign, 5000))
@@ -45,20 +41,18 @@ public class offGCD_Gluttony : ISlotResolver
         
         //if we have the Enshrouded buff, we will not use this solver
         if (Core.Me.HasAura(AurasDefine.Enshrouded))
-            return -51;
+            return -7;
         
-        
+        //if we have ImortalSacrifice buff, we will not use this solver
         if (Core.Me.HasAura(AurasDefine.ImmortalSacrifice))
-            return -3;
+            return -8;
+        
+        //if we have the IdealHost buff, we will not use this solver
         if (SpellsDefine.Enshroud.GetSpell().Cooldown.TotalMilliseconds != 0 && 
             SpellsDefine.Enshroud.GetSpell().Cooldown.TotalMilliseconds <= 1000 && 
-        // ReaperRotationEntry.QT.GetQt(QTKey.Burst) != false 
-        //  && ReaperRotationEntry.QT.GetQt(QTKey.Enshroud) != false &&
-
             (Core.Resolve<JobApi_Reaper>().ShroudGauge >= 50 || Core.Me.HasAura(AurasDefine.IdealHost)))
-            return -4;
-        if (Core.Me.HasAura(AurasDefine.ArcaneCircle) && SpellsDefine.Enshroud.IsReady())
-            return -52;
+            return -9;
+        
         return 0;
     }
 
