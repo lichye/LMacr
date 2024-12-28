@@ -8,11 +8,19 @@ namespace LM.Reaper.SlotResolvers.OffGCD;
 
 public class oGCD_ArcaneCircle : ISlotResolver
 {
-    public int Check()
+    private Spell GetSpell()
     {
-
-        if (!SpellsDefine.ArcaneCircle.IsReady())
+        return SpellsDefine.ArcaneCircle.GetSpell();
+    }
+    public int Check()
+    {   
+        // Check if the skill is available
+        if(Core.Me.Level < 72)
             return -1;
+        
+        if (!SpellsDefine.ArcaneCircle.IsReady())
+            return -2;
+
         // if (ReaperRotationEntry.QT.GetQt(QTKey.Burst) == false)
         // return -2;
 
@@ -21,6 +29,6 @@ public class oGCD_ArcaneCircle : ISlotResolver
 
     public void Build(Slot slot)
     {
-        slot.Add(Core.Resolve<MemApiSpell>().CheckActionChange(SpellsDefine.ArcaneCircle.GetSpell().Id).GetSpell());
+        slot.Add(GetSpell());
     }
 }

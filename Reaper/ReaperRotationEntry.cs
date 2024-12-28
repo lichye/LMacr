@@ -122,6 +122,10 @@ public class ReaperRotationEntry : IRotationEntry
 
     IOpener? GetOpener(uint level)
     {
+        if(level == 100)
+        {
+            return new Reaper_Opener100();
+        }
         return null;
     }
     
@@ -134,7 +138,6 @@ public class ReaperRotationEntry : IRotationEntry
     {
         QT = new JobViewWindow(ReaperSettings.Instance.JobViewSave, ReaperSettings.Instance.Save, "LM Reaper-V0.5");
         QT.SetUpdateAction(OnUIUpdate); // 设置QT中的Update回调 不需要就不设置
-
         //添加QT分页 第一个参数是分页标题 第二个是分页里的内容
         QT.AddTab("通用", DrawQtGeneral);
         // QT.AddTab("Dev", DrawQtDev);
@@ -145,7 +148,8 @@ public class ReaperRotationEntry : IRotationEntry
         
         QT.AddQt(QTKey.AOE, true);
         QT.AddQt(QTKey.HarvestMoon, true);
-
+        QT.AddQt(QTKey.Enshroud, true);
+        // QT.GetSave.DoubleEnshroud;
 
         // 添加快捷按钮 (带技能图标)
         /*QT.AddHotkey("战斗之声",
@@ -181,8 +185,15 @@ public class ReaperRotationEntry : IRotationEntry
     public void DrawQtGeneral(JobViewWindow jobViewWindow)
     {   
         ImGui.Text("LM Reaper-V0.5");
-        ImGui.Text("作者: LM");
-        ImGui.Text("玩好镰刀的关键在怎么开附体");
+
+        ImGui.Text("作者: Logica Magna");
+
+        ImGui.Text("玩好镰刀的关键在怎么开附体!");
+        
+        ImGui.Checkbox("双附体",ref ReaperSettings.Instance.DoubleEnshroud);
+
+        // ImGui.Checkbox("双附体",ref QT.GetQ);
+        // ImGui.Checkbox("双附体",ref RB.DoubleEnshroud);
         // ImGui.Text("施工计划：");
         // ImGui.Text("1.添加更多的技能");
         // ImGui.Text("2.可选的动画锁定");

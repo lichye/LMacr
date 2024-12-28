@@ -17,6 +17,9 @@ public class oGCD_Enshroud : ISlotResolver
     }
     public int Check()
     {   
+        if(!ReaperRotationEntry.QT.GetQt(QTKey.Enshroud))
+            return -1;
+
         // Check if the skill is available
         if (!SpellsDefine.Enshroud.IsReady())
             return -1;
@@ -37,6 +40,10 @@ public class oGCD_Enshroud : ISlotResolver
         // If we have the Immortal Sacrifice buff and we has skill ready, then we should use enshroud as soon as possible
         if (Core.Me.HasAura(AurasDefine.ImmortalSacrifice))
             return 1;
+        
+
+
+        
 
         //Normal, we will not use the enshroud
         return -1;

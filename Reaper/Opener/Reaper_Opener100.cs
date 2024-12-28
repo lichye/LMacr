@@ -44,12 +44,10 @@ public class Reaper_Opener100 : IOpener
 
     public Action CompeltedAction { get; set; }
 
-
     public int StepCount => 6;
 
     private static void Step0(Slot slot)
     {
-        ChatHelper.Print.ErrorMessage("0");
         slot.Add(new Spell(SpellsDefine.ShadowOfDeath, SpellTargetType.Target));
         if (
             // ReaperRotationEntry.QT.GetQt(QTKey.UsePotion) == true && 
@@ -62,7 +60,6 @@ public class Reaper_Opener100 : IOpener
 
     private static void Step1(Slot slot)
     {
-        ChatHelper.Print.ErrorMessage("1");
         slot.Add(new Spell(SpellsDefine.SoulSlice, SpellTargetType.Target));
         slot.Add(new Spell(SpellsDefine.ArcaneCircle, SpellTargetType.Self));
         slot.Add(new Spell(SpellsDefine.Gluttony, SpellTargetType.Target));
@@ -94,15 +91,11 @@ public class Reaper_Opener100 : IOpener
         slot.Add(new Spell(SpellsDefine.Sacrificium, SpellTargetType.Target));
     }
 
-
-
     public uint Level { get; } = 100;
 
     public void InitCountDown(CountDownHandler countDownHandler)
     {
-
         countDownHandler.AddAction(5000, ReaperSpellHelper.BeforeBattle);
         countDownHandler.AddAction(ReaperSettings.Instance.Harpe_time, SpellsDefine.Harpe, SpellTargetType.Target);
-        ChatHelper.Print.ErrorMessage("倒计时队列");
     }
 }
