@@ -6,7 +6,7 @@ using AEAssist.MemoryApi;
 using AEAssist.Extension;
 using static System.Windows.Forms.Design.AxImporter;
 using System.CodeDom;
-
+using LM.Reaper.Setting;
 namespace LM.Reaper.SlotResolvers.GCD;
 
 public class GCD_ShadowofDeath : ISlotResolver
@@ -45,10 +45,9 @@ public class GCD_ShadowofDeath : ISlotResolver
             return -3;    
 
         //if the target will not have the DeathsDesign debuff in the next 1 seconds, we will use the ShadowOfDeath skill
-        if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign, 1000))
+        if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign, ReaperSettings.Instance.ShadowofDeath_time))
             return 1;
         
-
         return -1;
     }
 

@@ -17,7 +17,7 @@ public class GCD_PlentifulHarvest : ISlotResolver
             return -1;
 
         //if we don't have the SoulGauge/Executioner, we will not use this solver
-        if (!Core.Me.HasAura(AurasDefine.SoulReaver) && !Core.Me.HasAura(AurasDefine.Executioner))
+        if (Core.Me.HasAura(AurasDefine.SoulReaver) || Core.Me.HasAura(AurasDefine.Executioner))
             return -2;
 
         //if we cannot touch the target, we will not use this solver
@@ -30,9 +30,6 @@ public class GCD_PlentifulHarvest : ISlotResolver
         
         if (Core.Me.HasAura(AurasDefine.BloodsownCircle))
             return -5;
-        
-        if (Core.Me.HasAura(AurasDefine.SoulReaver)||Core.Me.HasAura(AurasDefine.Executioner))
-            return -6;
         
         if (!Core.Me.HasAura(AurasDefine.ImmortalSacrifice))
             return -7;

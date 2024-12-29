@@ -37,16 +37,14 @@ public class oGCD_Enshroud : ISlotResolver
         if (Core.Resolve<JobApi_Reaper>().ShroudGauge < 50 && !Core.Me.HasAura(AurasDefine.IdealHost))
             return -4;
 
-        // If we have the Immortal Sacrifice buff and we has skill ready, then we should use enshroud as soon as possible
-        if (Core.Me.HasAura(AurasDefine.ImmortalSacrifice))
+        // If we have the idealHost buff and we has skill ready, 
+        // then we should use enshroud as soon as possible
+        if (Core.Me.HasAura(AurasDefine.IdealHost))
             return 1;
         
 
-
-        
-
         //Normal, we will not use the enshroud
-        return -1;
+        return -100;
     }
 
     public void Build(Slot slot)

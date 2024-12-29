@@ -51,7 +51,15 @@ public class ReaperSettings
 
     public bool BaseGCD_BehindFirst = true;
 
+    // public const char* 
+
     public int Harpe_time = 5000;
+
+    public int ShadowofDeath_time = 3000;
+
+    public int ArcaneCircle_GCD = 2;
+    
     public JobViewSave JobViewSave = new(); // QT设置存档
 
+    public int Gemdraught_id = 0;
 }
