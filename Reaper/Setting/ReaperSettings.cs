@@ -45,7 +45,12 @@ public class ReaperSettings
     }
     #endregion
 
-    public bool DoubleEnshroud = false;
+    public bool DoubleEnshroud = true;
+
+    public bool AutoEnshroud = true;
+
+    public int Enshroud_threadhold = 50;
+
 
     public bool OpenerNoPos = true;
 

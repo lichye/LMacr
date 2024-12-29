@@ -46,10 +46,6 @@ public class oGCD_BloodStalk : ISlotResolver
         if (Core.Resolve<JobApi_Reaper>().ShroudGauge == 100)
             return -3;
         
-        //if we turn off the QT of BloodStalk, we will not use this solver
-        // if (ReaperRotationEntry.QT.GetQt(QTKey.BloodStalk) == false)
-        //     return -4;
-        
         //if we have the aura of SoulReaver or Executioner, we will not use this solver
         if (Core.Me.HasAura(AurasDefine.SoulReaver) || Core.Me.HasAura(AurasDefine.Executioner))
             return -5;
@@ -91,17 +87,15 @@ public class oGCD_BloodStalk : ISlotResolver
             return -12;
         }
 
-        //TODO:
-        //rethink the logic of the following code
-        //Gluttony will be ready in 3 GCDs, and we don't have enough SoulGauge, we will not use this solver
-        // if (SpellsDefine.Gluttony.CoolDownInGCDs(3) && Core.Resolve<JobApi_Reaper>().SoulGauge < 100)
-        //     return -7;
+        if( SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds<10000 &&
+            Core.Resolve<JobApi_Reaper>().ShroudGauge < 50)
+            return 1;
         
-        //TODO：
-        //if ArcaneCircle will be ready in 5 GCDs, and we don't have enough ShroudGauge
-        // if (SpellsDefine.ArcaneCircle.CoolDownInGCDs(5) && Core.Resolve<JobApi_Reaper>().ShroudGauge != 40 && ReaperRotationEntry.QT.GetQt(QTKey.Burst) != false)
-        //     return -4;
-
+        //if Gluttony is coming and we have enough ShroudGauge, we will not use this solver
+        if (SpellsDefine.Gluttony.CoolDownInGCDs(10) && 
+            Core.Resolve<JobApi_Reaper>().SoulGauge < 100)
+            return -13;
+        
         return 0;
     }
 

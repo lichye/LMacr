@@ -36,7 +36,7 @@ public class offGCD_Gluttony : ISlotResolver
             return -4;
         
         //if the target does not have the DeathsDesign debuff, we will not use this solver
-        if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign, 5000))
+        if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign, 7500))
             return -6;
         
         //if we have the Enshrouded buff, we will not use this solver

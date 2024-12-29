@@ -195,6 +195,15 @@ public class ReaperRotationEntry : IRotationEntry
             ImGui.Text("神秘环GCD设置");
             ImGui.SliderInt("GCD", ref ReaperSettings.Instance.ArcaneCircle_GCD, 2, 3);
 
+            ImGui.Text("附体设置");
+
+            ImGui.Checkbox("爆发期双附体",ref ReaperSettings.Instance.DoubleEnshroud);
+
+            ImGui.Checkbox("资源期自动附体",ref ReaperSettings.Instance.AutoEnshroud);
+
+            ImGui.Text("资源期自动附体多少蓝量触发");
+            ImGui.SliderInt("蓝量", ref ReaperSettings.Instance.Enshroud_threadhold, 50, 100);
+
             ImGui.Text("死亡之影续buff时间");
             ImGui.SliderInt("毫秒", ref ReaperSettings.Instance.ShadowofDeath_time, 1000, 5000);
 
