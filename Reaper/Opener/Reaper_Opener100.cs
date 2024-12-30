@@ -16,11 +16,12 @@ public class Reaper_Opener100 : IOpener
 {
     public int StartCheck()
     {   
-        //if ArcaneCircle is ready
-        if  (!SpellsDefine.ArcaneCircle.IsReady())
+        //if Battletime is too long, then we do not need the opener
+        if(AI.Instance.BattleData.CurrBattleTimeInMs > 5000)
             return -1;
 
-        if  (!SpellsDefine.Gluttony.IsReady())
+        //if ArcaneCircle is ready
+        if  (!SpellsDefine.ArcaneCircle.IsReady())
             return -1;
         
         //if we are Enshrouded,then we do not need the opener

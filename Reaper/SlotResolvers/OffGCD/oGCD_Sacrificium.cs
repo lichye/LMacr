@@ -14,21 +14,23 @@ public class oGCD_Sacrificium : ISlotResolver
 {
     public int Check()
     {
-        // if we can't use GCD, return -2
+        // Level Check
+        if (Core.Me.Level < 92)
+            return -1;
+        
+        // GCD confiction Check
         if (GCDHelper.GetGCDCooldown() < ReaperSettings.Instance.AnimationLock)
             return -2;
-        // if we don't have Oblatio, return -5
-        if (!Core.Me.HasAura(AurasDefine.Oblatio))
+        
+        // Skill Ready Check
+        if (!Core.Me.HasAura(AurasDefine.Oblatio)||!SpellsDefine.Sacrificium.IsReady())
             return -5;
-        // if we don't have Sacrificium, return -1
-        if (!SpellsDefine.Sacrificium.IsReady())
-            return -1;
-
-        // if we don't have Deaths Design, return -3
+        
+        // DeathsDesign Check
         if (!Core.Me.GetCurrTarget().HasAura(AurasDefine.DeathsDesign))
             return -3;
         
-        // if we are near the ArcaneCircle, keep for the ArcaneCircle
+        // ArcaneCircle Check
         if (SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds < 10000)
             return -4;
 

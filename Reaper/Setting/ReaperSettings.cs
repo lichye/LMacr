@@ -49,10 +49,11 @@ public class ReaperSettings
     public bool PreHarpe = true;
     public bool OpenerNoPos = true;
 
+    public bool careAboutPos = true;
 
     public bool BaseGCD_BehindFirst = true;
 
-    public int AnimationLock = 600;
+    public int AnimationLock = 800;
 
     public bool DoubleEnshroud = true;
 

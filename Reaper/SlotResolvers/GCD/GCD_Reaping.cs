@@ -26,14 +26,17 @@ public class GCD_Reaping : ISlotResolver
     }
     public int Check()
     {
-        // Check if we can touch the target
+
+        //Target touchable check
         if (Core.Me.Distance(Core.Me.GetCurrTarget()) >
             SettingMgr.GetSetting<GeneralSettings>().AttackRange)
             return -1;
 
+        //Skill Ready Check
         if (Core.Resolve<JobApi_Reaper>().LemureShroud == 0)
             return -2;
         
+        //Buff Check
         if (!Core.Me.HasAura(AurasDefine.Enshrouded))
             return -3;
 

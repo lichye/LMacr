@@ -17,46 +17,76 @@ public class oGCD_Enshroud : ISlotResolver
     }
     public int Check()
     {   
+        // Level Check
+        if(Core.Me.Level < 80)
+            return -1;
+        
+        // QT Check
         if(!ReaperRotationEntry.QT.GetQt(QTKey.Enshroud))
             return -1;
 
-        // Check if the skill is available
-        if (!SpellsDefine.Enshroud.IsReady())
+        // Ideal Host Trigger
+        if (Core.Me.HasAura(AurasDefine.IdealHost))
+            return 1;
+
+        // Skill Ready Check
+        if (!SpellsDefine.Enshroud.IsReady() || Core.Resolve<JobApi_Reaper>().ShroudGauge < 50)
             return -2;
         
-        // Check if we can touch the target
+        // Target Distance Check
         if (Core.Me.Distance(Core.Me.GetCurrTarget()) >
             SettingMgr.GetSetting<GeneralSettings>().AttackRange)
             return -3;
         
-        // Check if we have the Soul Reaver or Enshrouded buff or Executioner
-        if (Core.Me.HasAura(AurasDefine.SoulReaver) || Core.Me.HasAura(AurasDefine.Enshrouded) || Core.Me.HasAura(AurasDefine.Executioner))
+        // Buff confiction Check
+        if (Core.Me.HasAura(AurasDefine.SoulReaver) || 
+            Core.Me.HasAura(AurasDefine.Enshrouded) || 
+            Core.Me.HasAura(AurasDefine.Executioner))
             return -4;
 
-        // Check if we have the Ideal Host buff
-        if (Core.Resolve<JobApi_Reaper>().ShroudGauge < 50 && !Core.Me.HasAura(AurasDefine.IdealHost))
-            return -5;
-
-        // If we have the idealHost buff and we has skill ready, 
-        // then we should use enshroud as soon as possible
-        if (Core.Me.HasAura(AurasDefine.IdealHost))
-            return 1;
+        
 
         // In Double Enshroud mode
         if (ReaperSettings.Instance.DoubleEnshroud){
-            // +ReaperSettings.Instance.AnimationLock*1;
+            // preEnshroudTime Check
             if(SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds < ReaperSettings.Instance.preEnshroudTime)
                 return 2;
         }
 
+        //Below is the Auto Enshroud Mode
+
+        //Enough ShroudGauge Check
+        if(Core.Resolve<JobApi_Reaper>().ShroudGauge < ReaperSettings.Instance.Enshroud_threadhold)
+            return -100;
+        
+        //Gluttony conflict Check
+        if(SpellsDefine.Gluttony.CoolDownInGCDs(5))
+            return -100;
+
+        //Gluttony conflict Check-2
+        if(Core.Resolve<JobApi_Reaper>().SoulGauge<= 30 &&
+          SpellsDefine.Gluttony.GetSpell().Cooldown.TotalMilliseconds< SpellsDefine.SoulSlice.GetSpell().Cooldown.TotalMilliseconds)
+            return -100;
+
+        // Auto Enshroud Mode
+        if(!ReaperSettings.Instance.AutoEnshroud){
+            return -100;    
+        }
+
         if(ReaperSettings.Instance.StandardShroud){
-            if 
-            (
-                ReaperSettings.Instance.AutoEnshroud &&
-                Core.Resolve<JobApi_Reaper>().ShroudGauge >= ReaperSettings.Instance.Enshroud_threadhold
-            )
             return 1;
         }
+
+        if(ReaperSettings.Instance.DoubleEnshroud){
+            //we need to think whether this usage of Enshroud will lead us cannot do Double Enshroud
+            int remainEnough = Core.Resolve<JobApi_Reaper>().ShroudGauge - 50;
+            int ArcaneTime = (int)SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds/1000;
+            if(ArcaneTime*0.9+remainEnough>=50)
+                return 1;
+            else
+                return -100;
+        }
+        
         //Normal, we will not use the enshroud
         return -100;
     }

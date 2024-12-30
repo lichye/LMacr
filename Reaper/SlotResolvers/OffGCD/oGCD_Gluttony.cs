@@ -20,45 +20,36 @@ public class offGCD_Gluttony : ISlotResolver
     }
     public int Check()
     {    
-        //if we are not level 76, we will not use this solver
+        //Level Check
         if (Core.Me.Level < 76)
             return -1;
         
-        //if we don't have the SoulGauge, we will not use this solver
-        if (Core.Resolve<JobApi_Reaper>().SoulGauge < 50)
+        //Skill Ready Check
+        if (Core.Resolve<JobApi_Reaper>().SoulGauge < 50 ||!SpellsDefine.Gluttony.IsReady())
             return -2;
 
-        //if we can't use GCD, we will not use this solver
+        //GCD confiction Check
         if (GCDHelper.GetGCDCooldown() < 600)
             return -3;
         
-        //if the Gluttony skill is not ready, we will not use this solver
-        if (!SpellsDefine.Gluttony.IsReady())
-            return -4;
-        
-        //if the target does not have the DeathsDesign debuff, we will not use this solver
-        if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign, 7500))
+        // Target Distance Check
+        if (Core.Me.Distance(Core.Me.GetCurrTarget()) >
+            SettingMgr.GetSetting<GeneralSettings>().AttackRange)
+            return -3;
+
+        // DeathsDesign Check
+        if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign,
+            ReaperSettings.Instance.GCD_Time*2+ReaperSettings.Instance.AnimationLock*3))
             return -6;
         
-        //if we have the Enshrouded buff, we will not use this solver
-        if (Core.Me.HasAura(AurasDefine.Enshrouded)||Core.Me.HasAura(AurasDefine.SoulReaver))
+        // Buff confiction Check
+        if (Core.Me.HasAura(AurasDefine.Enshrouded)||
+            Core.Me.HasAura(AurasDefine.SoulReaver)||
+            Core.Me.HasAura(AurasDefine.ImmortalSacrifice)||
+            Core.Me.HasAura(AurasDefine.IdealHost))
             return -7;
         
-        //if we have ImortalSacrifice buff, we will not use this solver
-        if (Core.Me.HasAura(AurasDefine.ImmortalSacrifice))
-            return -8;
-        
-        //if we have the IdealHost buff, we will not use this solver
-        if (SpellsDefine.Enshroud.GetSpell().Cooldown.TotalMilliseconds != 0 && 
-            SpellsDefine.Enshroud.GetSpell().Cooldown.TotalMilliseconds <= 1000 && 
-            (Core.Resolve<JobApi_Reaper>().ShroudGauge >= 50 || Core.Me.HasAura(AurasDefine.IdealHost)))
-            return -9;
-
-        //if we are going to use the PlentyfulHarvest skill, we will not use this solver
-        if (Core.Me.HasAura(AurasDefine.ImmortalSacrifice))
-            return -10;
-
-        
+        // Double Enshroud Check
         if (ReaperSettings.Instance.DoubleEnshroud)
         {
             if(Core.Me.HasAura(AurasDefine.ArcaneCircle))

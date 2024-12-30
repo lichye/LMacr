@@ -35,64 +35,66 @@ public class oGCD_BloodStalk : ISlotResolver
 
     public int Check()
     {
-        //if we donot have the cooldown of the GCD, we will not use this solver
-        if (GCDHelper.GetGCDCooldown() < 600)
+        // Level Check
+        if (Core.Me.Level < 50)
             return -1;
-        
-        //if we donot have enough SoulGauge, we will not use this solver
-        if (Core.Resolve<JobApi_Reaper>().SoulGauge < 50)
+
+        // GCD confiction Check
+        if (GCDHelper.GetGCDCooldown() < ReaperSettings.Instance.AnimationLock)
             return -2;
         
-        //if we have 100 ShroudGauge, we will not use this solver
+        // Skill Ready Check
+        if (Core.Resolve<JobApi_Reaper>().SoulGauge < 50 || !SpellsDefine.BloodStalk.IsReady())
+            return -2;
+        
+        // ShroudGauge Overflow Check
         if (Core.Resolve<JobApi_Reaper>().ShroudGauge == 100)
             return -3;
         
-        //if we have the aura of SoulReaver or Executioner, we will not use this solver
-        if (Core.Me.HasAura(AurasDefine.SoulReaver) || Core.Me.HasAura(AurasDefine.Executioner))
+        //Buff confiction Check
+        if (Core.Me.HasAura(AurasDefine.SoulReaver) || 
+            Core.Me.HasAura(AurasDefine.Executioner) ||
+            Core.Me.HasAura(AurasDefine.Enshrouded) ||
+            Core.Me.HasAura(AurasDefine.ImmortalSacrifice)
+            )
             return -5;
         
-        //if we the target will not have the aura of DeathsDesign, we will not use this solver
-        if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign, 2500))
+        //DeathsDesign Check
+        if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign,
+            ReaperSettings.Instance.GCD_Time+ReaperSettings.Instance.AnimationLock*3))
             return -6;
         
-        //if we don't have the aura of Enshrouded, we will not use this solver
-        if (!SpellsDefine.BloodStalk.IsReady())
-            return -7;
 
-        //if we will loss the combo, we will not use this solver
+        //Combo Check
         if (Core.Resolve<MemApiSpell>().GetComboTimeLeft().TotalMilliseconds < 2500)
             if (Core.Resolve<MemApiSpell>().GetLastComboSpellId() == SpellsDefine.Slice ||
                 Core.Resolve<MemApiSpell>().GetLastComboSpellId() == SpellsDefine.WaxingSlice)
                 return -8;
 
-        //if we are in the burst mode, we will not use this solver
-        if (Core.Me.HasAura(AurasDefine.Enshrouded) || Core.Me.HasAura(AurasDefine.ImmortalSacrifice) || Core.Me.HasAura(AurasDefine.ArcaneCircle))
-            return -9;
+        //Position check
+        if(ReaperSettings.Instance.careAboutPos && Core.Me.GetCurrTarget().HasPositional()){
+            //if we are on the back of the Target and we have the aura of EnhancedGibbet, we will not use this solver
+            if (Core.Me.HasAura(AurasDefine.EnhancedGibbet) && !Core.Resolve<MemApiTarget>().IsFlanking)
+            {
+                return -11;
+            }
 
-        //if we recently used the spell of PlentifulHarvest, we will not use this solver
-        if (SpellsDefine.PlentifulHarvest.RecentlyUsed(1000))
-            return -10;
+            //if we are on the side of the Target and we have the aura of EnhancedGallows, we will not use this solver
+            if (Core.Me.HasAura(AurasDefine.EnhancedGallows) && !Core.Resolve<MemApiTarget>().IsBehind)
+            {
+                return -12;
+            }
+        }
         
-        //if we are on the back of the Target and we have the aura of EnhancedGibbet, we will not use this solver
-        if (Core.Me.HasAura(AurasDefine.EnhancedGibbet) && !Core.Resolve<MemApiTarget>().IsFlanking)
-        {
-            return -11;
-        }
-
-        //if we are on the side of the Target and we have the aura of EnhancedGallows, we will not use this solver
-        if (Core.Me.HasAura(AurasDefine.EnhancedGallows) && !Core.Resolve<MemApiTarget>().IsBehind)
-        {
-            return -12;
-        }
                 
-        //if Gluttony is coming and we have enough ShroudGauge, we will not use this solver
+        //Gluttony check
         if (SpellsDefine.Gluttony.CoolDownInGCDs(5) && Core.Resolve<JobApi_Reaper>().SoulGauge < 100)
             return -13;
         
-
-        if( SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds<10000 &&
-            Core.Resolve<JobApi_Reaper>().ShroudGauge < 50)
-            return 1;
+        
+        // if( SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds<10000 &&
+        //     Core.Resolve<JobApi_Reaper>().ShroudGauge < 50)
+        //     return 1;
 
         return 0;
     }

@@ -23,11 +23,11 @@ public class GCD_AOE:ISlotResolver
     }
     public int Check()
     {   
-        //if we are not level 25, we will not use this solver
+        //Level Check
         if(Core.Me.Level < 25)
             return -20;
         
-        //check if we can touch the target
+        //Target touchable check
         if (Core.Me.Distance(Core.Me.GetCurrTarget()) >
             SettingMgr.GetSetting<GeneralSettings>().AttackRange)
             return -1;
@@ -36,12 +36,12 @@ public class GCD_AOE:ISlotResolver
         if (SpellsDefine.BloodStalk.RecentlyUsed(1500) || SpellsDefine.Gluttony.RecentlyUsed(1500))
             return -2;
 
-        //we need to check if we are in aoe mode
-        //we need to check if there are more than 2 enemies around us
+        //AOE Check
         var aoeCount = TargetHelper.GetNearbyEnemyCount(Core.Me, 5, 5);
         if (aoeCount < 3 || !ReaperRotationEntry.QT.GetQt(QTKey.AOE))
             return -3;
 
+        //Normal Use
         return 0;
     }
 

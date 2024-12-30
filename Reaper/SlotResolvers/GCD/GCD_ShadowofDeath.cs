@@ -49,30 +49,27 @@ public class GCD_ShadowofDeath : ISlotResolver
 
     public int Check()
     {   
-        //if we are not level 10, we will not use this solver
+        //Level Check
         if (Core.Me.Level < 10)
             return -1;
 
-        //if we cannot touch the target, we will not use this solver    
+        //Target touchable check  
         if (Core.Me.Distance(Core.Me.GetCurrTarget()) > SettingMgr.GetSetting<GeneralSettings>().AttackRange)
             return -2;
             
-        //if we has the SoulReaver or Executioner buff, we will not use this solver
-        if (Core.Me.HasAura(AurasDefine.SoulReaver) || Core.Me.HasAura(AurasDefine.Executioner))
+        //Buff confiction Check
+        if (Core.Me.HasAura(AurasDefine.SoulReaver) || 
+            Core.Me.HasAura(AurasDefine.Executioner))
             return -3;    
 
-        //In Double Enshroud mode, we will have different ShadowOfDeath usage logic
+        //Double Enshroud Check
         if (ReaperSettings.Instance.DoubleEnshroud){
             //when we are near the ArcaneCircle
             if(SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds < 10000){
-                if( Core.Me.HasAura(AurasDefine.Enshrouded) 
-                )
-                {
-                    return 1;
-                }    
-                else{
+                if( Core.Me.HasAura(AurasDefine.Enshrouded))
+                    return 1;   
+                else
                     return -1;
-                }  
             }
             else{
                 //if the target will not have the DeathsDesign debuff in the next X seconds, we will use the ShadowOfDeath skill
@@ -80,6 +77,7 @@ public class GCD_ShadowofDeath : ISlotResolver
                     return 1;
             }
         }
+        //Normal Use
         else{
             //if the target will not have the DeathsDesign debuff in the next X seconds, we will use the ShadowOfDeath skill
             if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign, ReaperSettings.Instance.ShadowofDeath_time))

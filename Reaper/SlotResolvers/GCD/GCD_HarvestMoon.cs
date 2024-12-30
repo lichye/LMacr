@@ -17,22 +17,25 @@ public class GCD_HarvestMoon : ISlotResolver
     }
     public int Check()
     {   
-        //if we do not have HarvestMoon, we will not use this solver
-        if (!Core.Me.HasAura(AurasDefine.Soulsow))
-            return -1;
-    
-        //if we have Excuter buff, we will not use this solver
-        if (Core.Me.HasAura(AurasDefine.Executioner)||Core.Me.HasAura(AurasDefine.SoulReaver))
-            return -2;
-        
-        //if turn off the QT, then we will not use this solver
-        if (!ReaperRotationEntry.QT.GetQt(QTKey.HarvestMoon))
-            return -3;
-        
-        //if we are below level 82, we will not use this solver
+        //Level Check
         if (Core.Me.Level < 82)
             return -3;
 
+        //QT Check
+        if (!ReaperRotationEntry.QT.GetQt(QTKey.HarvestMoon))
+            return -3;
+
+        //Skill Ready Check
+        if (!Core.Me.HasAura(AurasDefine.Soulsow))
+            return -1;
+    
+        // Buff confiction Check
+        if (Core.Me.HasAura(AurasDefine.Enshrouded)||
+            Core.Me.HasAura(AurasDefine.SoulReaver)||
+            Core.Me.HasAura(AurasDefine.ImmortalSacrifice)||
+            Core.Me.HasAura(AurasDefine.IdealHost))
+            return -7;
+        
         return 1;
     }
 

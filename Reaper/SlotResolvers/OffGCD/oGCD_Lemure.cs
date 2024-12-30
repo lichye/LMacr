@@ -6,7 +6,7 @@ using AEAssist.MemoryApi;
 using AEAssist.Extension;
 using static System.Windows.Forms.Design.AxImporter;
 using AEAssist.JobApi;
-
+using LM.Reaper.Setting;
 namespace LM.Reaper.SlotResolvers.OffGCD;
 
 public class oGCD_Lemure : ISlotResolver
@@ -19,13 +19,23 @@ public class oGCD_Lemure : ISlotResolver
         return SpellsDefine.LemuresSlice.GetSpell();
     }
     public int Check()
-    {
+    {   
+        // Level Check
+        if (Core.Me.Level < 80)
+            return -1;
+        
+        // Skill Ready Check
         if (Core.Resolve<JobApi_Reaper>().VoidShroud < 2)
             return -2;
+        
+        // Status Check
         if (!Core.Me.HasAura(AurasDefine.Enshrouded))
             return -3;
-        if (GCDHelper.GetGCDCooldown() < 800)
-            return -2;
+        
+        // GCD confiction Check
+        if (GCDHelper.GetGCDCooldown() < ReaperSettings.Instance.AnimationLock)
+            return -4;
+        
         return 0;
     }
 

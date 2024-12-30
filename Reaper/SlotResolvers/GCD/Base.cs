@@ -27,18 +27,20 @@ public class GCD_Base : ISlotResolver
     }
     public int Check()
     {   
-        //if we can not touch the target, we will not use this solver
+        //Target touchable check
         if (Core.Me.Distance(Core.Me.GetCurrTarget()) >
             SettingMgr.GetSetting<GeneralSettings>().AttackRange)
             return -1;
 
-        //if we have used BloodStalk or Gluttony in the last 1.5 seconds, we will not use this solver
-        if (SpellsDefine.BloodStalk.RecentlyUsed(1500) || SpellsDefine.Gluttony.RecentlyUsed(1500))
-            return -2;
+       // Buff confiction Check
+        if (Core.Me.HasAura(AurasDefine.Enshrouded)||
+            Core.Me.HasAura(AurasDefine.SoulReaver)||
+            Core.Me.HasAura(AurasDefine.Executioner)||
+            Core.Me.HasAura(AurasDefine.ImmortalSacrifice)||
+            Core.Me.HasAura(AurasDefine.IdealHost))
+            return -7;
         
-        //if we have Excuter buff, we will not use this solver
-        if (Core.Me.HasAura(AurasDefine.Executioner)||Core.Me.HasAura(AurasDefine.SoulReaver))
-            return -3;
+        //Normal Use
         return 1;
     }
 

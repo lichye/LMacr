@@ -10,13 +10,20 @@ namespace LM.Reaper.SlotResolvers.GCD;
 public class GCD_Perfectio : ISlotResolver
 {
     public int Check()
-    {
-        if (!SpellsDefine.Perfectio.IsUnlock())
+    {   
+        //Level Check
+        if (Core.Me.Level < 100)
             return -1;
+        
+        //Skill Ready Check
+        if (!SpellsDefine.Perfectio.IsUnlock()||!Core.Me.HasAura(AurasDefine.PerfectioParata))
+            return -1;
+        
+        //Target touchable check
         if (Core.Me.Distance(Core.Me.GetCurrTarget()) > 25)
             return -1;
-        if (!Core.Me.HasAura(AurasDefine.PerfectioParata))
-            return -3;
+
+        //Normal Use
         return 0;
     }
 

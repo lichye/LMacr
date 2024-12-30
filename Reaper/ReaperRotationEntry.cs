@@ -186,6 +186,30 @@ public class ReaperRotationEntry : IRotationEntry
     {   
         
         ImGui.Text("LM Reaper-V0.6");
+        if (ImGui.Button("日随模式")) {
+            ReaperSettings.Instance.ArcaneCircle_GCD = 2;
+            ReaperSettings.Instance.BaseGCD_BehindFirst = true;
+            ReaperSettings.Instance.PreHarpe = false;
+            ReaperSettings.Instance.AutoEnshroud = true;
+            ReaperSettings.Instance.Enshroud_threadhold = 50;
+            ReaperSettings.Instance.ShadowofDeath_time = 5000;
+            ReaperSettings.Instance.careAboutPos = false;
+            ReaperSettings.Instance.DoubleEnshroud = false;
+            ReaperSettings.Instance.StandardShroud = true;
+        }
+        ImGui.SameLine();
+        if (ImGui.Button("高难模式")){
+            ReaperSettings.Instance.ArcaneCircle_GCD = 2;
+            ReaperSettings.Instance.BaseGCD_BehindFirst = true;
+            ReaperSettings.Instance.PreHarpe = true;
+            ReaperSettings.Instance.AutoEnshroud = true;
+            ReaperSettings.Instance.Enshroud_threadhold = 60;
+            ReaperSettings.Instance.ShadowofDeath_time = 3000;
+            ReaperSettings.Instance.careAboutPos = true;
+            ReaperSettings.Instance.DoubleEnshroud = true;
+            ReaperSettings.Instance.StandardShroud = false;
+        }
+
         
         if (ImGui.CollapsingHeader("起手设置")) {
 
@@ -193,36 +217,44 @@ public class ReaperRotationEntry : IRotationEntry
             ImGui.SliderInt("GCD", ref ReaperSettings.Instance.ArcaneCircle_GCD, 2, 3);
             ImGui.Checkbox("预读勾刃",ref ReaperSettings.Instance.PreHarpe);
 
+            ImGui.Text("");
+            ImGui.Checkbox("起手打背",ref ReaperSettings.Instance.BaseGCD_BehindFirst);
+
+            ImGui.Text("");
             ImGui.Text("爆发药ID:");
             ImGui.SameLine();
             ImGui.InputInt("整数输入", ref ReaperSettings.Instance.Gemdraught_id);
         }
 
         if(ImGui.CollapsingHeader("资源期设置")){
-
-            ImGui.Text("资源期设置");
-            ImGui.Checkbox("资源期自动附体",ref ReaperSettings.Instance.AutoEnshroud);
-
-            ImGui.Text("资源期自动附体多少蓝量触发");
-            ImGui.SliderInt("蓝量", ref ReaperSettings.Instance.Enshroud_threadhold, 50, 100);
-
             ImGui.Text("死亡之影续buff时间");
             ImGui.SliderInt("毫秒", ref ReaperSettings.Instance.ShadowofDeath_time, 1000, 5000);
 
+            ImGui.Text("");
+            ImGui.Text("绞决-缢杀身位设置");
+            ImGui.Checkbox("正确身位触发绞决-缢杀",ref ReaperSettings.Instance.careAboutPos);
+
+            ImGui.Text("");
+            ImGui.Text("资源期附体设置");
+            ImGui.Checkbox("自动附体",ref ReaperSettings.Instance.AutoEnshroud);
+
+            ImGui.Text("资源期自动附体多少蓝量触发");
+            ImGui.SliderInt("蓝量", ref ReaperSettings.Instance.Enshroud_threadhold, 50, 100);
         }
         if(ImGui.CollapsingHeader("爆发期设置")){
             ImGui.Text("镰刀爆发期 -10 秒就开始了");
+            ImGui.Text("-10秒攒不够资源进双附体,ACR会爆炸，我还没修");
             ImGui.Text("循环设置");
             if(ImGui.Checkbox("双附体循环",ref ReaperSettings.Instance.DoubleEnshroud)){
                 ReaperSettings.Instance.StandardShroud = false;
             }
-            // ImGui.Text("附体触发时间");
-            // ImGui.Text("时间太高或者太低都不行，请根据自己网速/动画锁调整");
-            // ImGui.SliderInt("毫秒", ref ReaperSettings.Instance.preEnshroudTime, 6000,8000);
-            
+            ImGui.SameLine();
             if(ImGui.Checkbox("单附体循环",ref ReaperSettings.Instance.StandardShroud)){
                 ReaperSettings.Instance.DoubleEnshroud = false;
             }
+            ImGui.Text("双附体触发时间");
+            ImGui.Text("时间太高或者太低都不行，请根据自己网速/动画锁调整");
+            ImGui.SliderInt("毫秒", ref ReaperSettings.Instance.preEnshroudTime, 6000,8000);
         }
 
     }
