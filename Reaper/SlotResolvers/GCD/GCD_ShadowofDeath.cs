@@ -4,6 +4,7 @@ using AEAssist.CombatRoutine.Module;
 using AEAssist.Helper;
 using AEAssist.MemoryApi;
 using AEAssist.Extension;
+using AEAssist.JobApi;
 using static System.Windows.Forms.Design.AxImporter;
 using System.CodeDom;
 using LM.Reaper.Setting;
@@ -27,6 +28,22 @@ public class GCD_ShadowofDeath : ISlotResolver
                 return SpellsDefine.WhorlOfDeath.GetSpell();
         }
 
+        if( ReaperSettings.Instance.DoubleEnshroud && 
+            Core.Me.HasAura(AurasDefine.Enshrouded)
+            )
+        {
+            //if the target will not have the DeathsDesign debuff in the next X seconds, we will use the ShadowOfDeath skill
+            if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign, ReaperSettings.Instance.ShadowofDeath_time))
+                return SpellsDefine.ShadowOfDeath.GetSpell();
+
+            //if an ShadowOfDeath is not enough, then we do a VoidReaping
+            if(SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds > ReaperSettings.Instance.GCD_Time - ReaperSettings.Instance.AnimationLock*1.2
+             &&Core.Resolve<JobApi_Reaper>().LemureShroud ==5)
+                return SpellsDefine.VoidReaping.GetSpell();
+
+            return SpellsDefine.ShadowOfDeath.GetSpell();
+        }
+
         return SpellsDefine.ShadowOfDeath.GetSpell();
     }
 
@@ -44,16 +61,32 @@ public class GCD_ShadowofDeath : ISlotResolver
         if (Core.Me.HasAura(AurasDefine.SoulReaver) || Core.Me.HasAura(AurasDefine.Executioner))
             return -3;    
 
-        //if the target will not have the DeathsDesign debuff in the next X seconds, we will use the ShadowOfDeath skill
-        if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign, ReaperSettings.Instance.ShadowofDeath_time))
-            return 1;
-        
-        if (ReaperSettings.Instance.DoubleEnshroud && 
-            Core.Me.HasAura(AurasDefine.Enshrouded) &&
-            SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds > 2500 &&
-            SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds < 7500)
-            return 2;
+        //In Double Enshroud mode, we will have different ShadowOfDeath usage logic
+        if (ReaperSettings.Instance.DoubleEnshroud){
+            //when we are near the ArcaneCircle
+            if(SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds < 10000){
+                if( Core.Me.HasAura(AurasDefine.Enshrouded) 
+                )
+                {
+                    return 1;
+                }    
+                else{
+                    return -1;
+                }  
+            }
+            else{
+                //if the target will not have the DeathsDesign debuff in the next X seconds, we will use the ShadowOfDeath skill
+                if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign, ReaperSettings.Instance.ShadowofDeath_time))
+                    return 1;
+            }
+        }
+        else{
+            //if the target will not have the DeathsDesign debuff in the next X seconds, we will use the ShadowOfDeath skill
+            if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign, ReaperSettings.Instance.ShadowofDeath_time))
+                return 1;
+        }
 
+        //Normally we will not use this solver
         return -1;
     }
 

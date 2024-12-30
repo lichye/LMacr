@@ -4,6 +4,7 @@ using AEAssist.CombatRoutine.Module;
 using AEAssist.CombatRoutine.Module.Opener;
 using AEAssist.Extension;
 using AEAssist.Helper;
+using AEAssist.JobApi;
 using AEAssist.MemoryApi;
 using LM.Reaper.Setting;
 using System;
@@ -14,18 +15,25 @@ namespace LM.Reaper.Opener;
 public class Reaper_Opener100 : IOpener
 {
     public int StartCheck()
-    {
-        // if (!SpellsDefine.ArcaneCircle.IsReady())
-        //     return -1;
-        // if (!SpellsDefine.SoulSlice.IsReady())
-        //     return -2;
-        // if (!SpellsDefine.Gluttony.IsReady())
-        //     return -3;
+    {   
+        //if ArcaneCircle is ready
+        if  (!SpellsDefine.ArcaneCircle.IsReady())
+            return -1;
+
+        if  (!SpellsDefine.Gluttony.IsReady())
+            return -1;
+        
+        //if we are Enshrouded,then we do not need the opener
+        if (Core.Me.HasAura(AurasDefine.Enshrouded))
+            return -1;
         return 0;
     }
 
     public int StopCheck(int index)
-    {
+    {   
+        //if we are Enshrouded,then we do not need the opener
+        if(Core.Me.HasAura(AurasDefine.Enshrouded))
+            return 0;
         return -1;
     }
 
@@ -129,6 +137,7 @@ public class Reaper_Opener100 : IOpener
     public void InitCountDown(CountDownHandler countDownHandler)
     {
         countDownHandler.AddAction(5000, ReaperSpellHelper.BeforeBattle);
-        countDownHandler.AddAction(ReaperSettings.Instance.Harpe_time, SpellsDefine.Harpe, SpellTargetType.Target);
+        if(ReaperSettings.Instance.PreHarpe)
+            countDownHandler.AddAction(ReaperSettings.Instance.Harpe_time, SpellsDefine.Harpe, SpellTargetType.Target);
     }
 }

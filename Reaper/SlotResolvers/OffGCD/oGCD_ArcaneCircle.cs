@@ -4,6 +4,8 @@ using AEAssist.CombatRoutine.Module;
 using AEAssist.Helper;
 using AEAssist.MemoryApi;
 
+using LM.Reaper.Setting;
+
 namespace LM.Reaper.SlotResolvers.OffGCD;
 
 public class oGCD_ArcaneCircle : ISlotResolver
@@ -20,6 +22,10 @@ public class oGCD_ArcaneCircle : ISlotResolver
         
         if (!SpellsDefine.ArcaneCircle.IsReady())
             return -2;
+        
+        //if we donot have the cooldown of the GCD, we will not use this solver
+        if (GCDHelper.GetGCDCooldown() < ReaperSettings.Instance.AnimationLock)
+            return -3;
 
         // if (ReaperRotationEntry.QT.GetQt(QTKey.Burst) == false)
         // return -2;

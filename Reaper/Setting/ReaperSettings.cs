@@ -19,7 +19,8 @@ public class ReaperSettings
     #region 标准模板代码 可以直接复制后改掉类名即可
     private static string path;
     public static void Build(string settingPath)
-    {
+    { 
+        
         path = Path.Combine(settingPath, nameof(ReaperSettings) + ".json");
         if (!File.Exists(path))
         {
@@ -45,26 +46,40 @@ public class ReaperSettings
     }
     #endregion
 
+    public bool PreHarpe = true;
+    public bool OpenerNoPos = true;
+
+
+    public bool BaseGCD_BehindFirst = true;
+
+    public int AnimationLock = 600;
+
     public bool DoubleEnshroud = true;
+
+    public int preEnshroudTime = 6000;
+
+    public bool StandardShroud = false;
 
     public bool AutoEnshroud = true;
 
     public int Enshroud_threadhold = 50;
 
 
-    public bool OpenerNoPos = true;
 
-    public bool BaseGCD_BehindFirst = true;
 
     // public const char* 
 
     public int Harpe_time = 5000;
 
+
     public int ShadowofDeath_time = 3000;
+
+    public int GCD_Time = 2500;
 
     public int ArcaneCircle_GCD = 2;
     
     public JobViewSave JobViewSave = new(); // QT设置存档
+
 
     public int Gemdraught_id = 0;
 }

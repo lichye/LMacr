@@ -6,6 +6,7 @@ using AEAssist.MemoryApi;
 using AEAssist.Extension;
 using static System.Windows.Forms.Design.AxImporter;
 using AEAssist.JobApi;
+using LM.Reaper.Setting;
 
 namespace LM.Reaper.SlotResolvers.OffGCD;
 
@@ -26,7 +27,7 @@ public class offGCD_Gluttony : ISlotResolver
         //if we don't have the SoulGauge, we will not use this solver
         if (Core.Resolve<JobApi_Reaper>().SoulGauge < 50)
             return -2;
-        
+
         //if we can't use GCD, we will not use this solver
         if (GCDHelper.GetGCDCooldown() < 600)
             return -3;
@@ -40,7 +41,7 @@ public class offGCD_Gluttony : ISlotResolver
             return -6;
         
         //if we have the Enshrouded buff, we will not use this solver
-        if (Core.Me.HasAura(AurasDefine.Enshrouded))
+        if (Core.Me.HasAura(AurasDefine.Enshrouded)||Core.Me.HasAura(AurasDefine.SoulReaver))
             return -7;
         
         //if we have ImortalSacrifice buff, we will not use this solver
@@ -52,7 +53,18 @@ public class offGCD_Gluttony : ISlotResolver
             SpellsDefine.Enshroud.GetSpell().Cooldown.TotalMilliseconds <= 1000 && 
             (Core.Resolve<JobApi_Reaper>().ShroudGauge >= 50 || Core.Me.HasAura(AurasDefine.IdealHost)))
             return -9;
+
+        //if we are going to use the PlentyfulHarvest skill, we will not use this solver
+        if (Core.Me.HasAura(AurasDefine.ImmortalSacrifice))
+            return -10;
+
         
+        if (ReaperSettings.Instance.DoubleEnshroud)
+        {
+            if(Core.Me.HasAura(AurasDefine.ArcaneCircle))
+                return -1;
+        }
+
         return 0;
     }
 

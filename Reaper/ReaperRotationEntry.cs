@@ -185,20 +185,22 @@ public class ReaperRotationEntry : IRotationEntry
     public void DrawQtGeneral(JobViewWindow jobViewWindow)
     {   
         
-        ImGui.Text("LM Reaper-V0.5");
-
-        ImGui.Text("作者: Logica Magna");
-
-        ImGui.Text("玩好镰刀的关键在怎么开附体!");
+        ImGui.Text("LM Reaper-V0.6");
         
-        if (ImGui.CollapsingHeader("基础设置")) {
-            ImGui.Text("神秘环GCD设置");
+        if (ImGui.CollapsingHeader("起手设置")) {
+
+            ImGui.Text("起手设置 2G/3G");
             ImGui.SliderInt("GCD", ref ReaperSettings.Instance.ArcaneCircle_GCD, 2, 3);
+            ImGui.Checkbox("预读勾刃",ref ReaperSettings.Instance.PreHarpe);
 
-            ImGui.Text("附体设置");
+            ImGui.Text("爆发药ID:");
+            ImGui.SameLine();
+            ImGui.InputInt("整数输入", ref ReaperSettings.Instance.Gemdraught_id);
+        }
 
-            ImGui.Checkbox("爆发期双附体",ref ReaperSettings.Instance.DoubleEnshroud);
+        if(ImGui.CollapsingHeader("资源期设置")){
 
+            ImGui.Text("资源期设置");
             ImGui.Checkbox("资源期自动附体",ref ReaperSettings.Instance.AutoEnshroud);
 
             ImGui.Text("资源期自动附体多少蓝量触发");
@@ -207,70 +209,22 @@ public class ReaperRotationEntry : IRotationEntry
             ImGui.Text("死亡之影续buff时间");
             ImGui.SliderInt("毫秒", ref ReaperSettings.Instance.ShadowofDeath_time, 1000, 5000);
 
-            ImGui.Text("爆发药ID:");
-            ImGui.SameLine();
-            ImGui.InputInt("整数输入", ref ReaperSettings.Instance.Gemdraught_id);
-
-            // ImGui.Text("起手设置");
-            // ImGui::Text("起手设置");
-            // static const char* openers[] = { "三阴起手", "三阳起手", "五气朝元" };
-            // static int current_opener = 0;
-            // ImGui::Combo("起手选择", &current_opener, openers, IM_ARRAYSIZE(openers));
-            // ImGui::Text("选择起手方式：%s", openers[current_opener]);
-            // 爆发药设置
-            // ImGui::Text("爆发药设置");
-            // static const char* potion_times[] = { "06 (默认)", "12", "18", "24" };
-            // static int current_potion_time = 0;
-            // ImGui::Combo("选择爆发药时间", &current_potion_time, potion_times, IM_ARRAYSIZE(potion_times));
-
-            // // 倒数设置部分
-            // ImGui::Text("倒数设置");
-            // static bool countdown_14 = false, countdown_3 = true, countdown_05 = true;
-            // ImGui::Checkbox("倒数14s真言", &countdown_14);
-            // ImGui::SameLine();
-            // ImGui::Checkbox("倒数3s真北", &countdown_3);
-            // ImGui::SameLine();
-            // ImGui::Checkbox("倒数0.5s突进", &countdown_05);
-
-            // // 通用设置部分
-            // ImGui::Text("通用设置");
-            // static bool aoe_targeting = false, auto_true_north = true, keep_true_north = true;
-            // ImGui::Checkbox("AOE智能目标", &aoe_targeting);
-            // ImGui::Checkbox("自动真北 (检测勾选BUFF)", &auto_true_north);
-            // ImGui::Checkbox("留一层真北 (如果你开启了自动真北)", &keep_true_north);
-
+        }
+        if(ImGui.CollapsingHeader("爆发期设置")){
+            ImGui.Text("镰刀爆发期 -10 秒就开始了");
+            ImGui.Text("循环设置");
+            if(ImGui.Checkbox("双附体循环",ref ReaperSettings.Instance.DoubleEnshroud)){
+                ReaperSettings.Instance.StandardShroud = false;
+            }
+            // ImGui.Text("附体触发时间");
+            // ImGui.Text("时间太高或者太低都不行，请根据自己网速/动画锁调整");
+            // ImGui.SliderInt("毫秒", ref ReaperSettings.Instance.preEnshroudTime, 6000,8000);
+            
+            if(ImGui.Checkbox("单附体循环",ref ReaperSettings.Instance.StandardShroud)){
+                ReaperSettings.Instance.DoubleEnshroud = false;
+            }
         }
 
-        // if (ImGui.CollapsingHeader("轴控设置(高难用)")) {
-        //     ImGui.Text("这里是轴控设置的内容");
-        //     // 添加更多的设置控件...
-        // }
-
-        // if (ImGui.CollapsingHeader("日随设置")) {
-        //     ImGui.Text("这里是日随设置的内容");
-        //     // 添加更多的设置控件...
-        // }
-
-        // if (ImGui.CollapsingHeader("自回设置")) {
-        //     ImGui.Text("这里是自回设置的内容");
-        //     // 添加更多的设置控件...
-        // }
-
-        // ImGui.Checkbox("双附体",ref ReaperSettings.Instance.DoubleEnshroud);
-
-        // if (ImGui.TreeNode("Options")) {
-        //     ImGui.Text("Option 1");
-        //     ImGui.Text("Option 2");
-        //     ImGui.TreePop();
-        // }
-        // ImGui.Checkbox("双附体",ref QT.GetQ);
-        // ImGui.Checkbox("双附体",ref RB.DoubleEnshroud);
-        // ImGui.Text("施工计划：");
-        // ImGui.Text("1.添加更多的技能");
-        // ImGui.Text("2.可选的动画锁定");
-        // ImGui.Text("3.完成QT的开发");
-        // ImGui.Text("4.添加更多的开场");
-        // ImGui.Text("5.更好的暴食释放时机");
     }
 
     public void DrawQtDev(JobViewWindow jobViewWindow)
@@ -285,7 +239,10 @@ public class ReaperRotationEntry : IRotationEntry
         {
             ImGui.Text($"Hotkey按钮: {v}");
         }
+        ImGui.Text($"AnimationLock:{ReaperSettings.Instance.AnimationLock}");
+        ImGui.Text($"GCD_Time:{ReaperSettings.Instance.GCD_Time}");
         ImGui.Text($"ShadowofDeath_time:{ReaperSettings.Instance.ShadowofDeath_time}");
+        ImGui.Text($"preEnshroudTime:{ReaperSettings.Instance.preEnshroudTime}");
     }
 
     public void Dispose()

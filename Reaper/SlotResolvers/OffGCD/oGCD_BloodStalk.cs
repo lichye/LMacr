@@ -6,6 +6,7 @@ using AEAssist.JobApi;
 using AEAssist.MemoryApi;
 using AEAssist.Extension;
 using static System.Windows.Forms.Design.AxImporter;
+using LM.Reaper.Setting;
 
 namespace LM.Reaper.SlotResolvers.OffGCD;
 
@@ -65,15 +66,12 @@ public class oGCD_BloodStalk : ISlotResolver
                 return -8;
 
         //if we are in the burst mode, we will not use this solver
-        if (Core.Me.HasAura(AurasDefine.Enshrouded))
+        if (Core.Me.HasAura(AurasDefine.Enshrouded) || Core.Me.HasAura(AurasDefine.ImmortalSacrifice) || Core.Me.HasAura(AurasDefine.ArcaneCircle))
             return -9;
 
         //if we recently used the spell of PlentifulHarvest, we will not use this solver
         if (SpellsDefine.PlentifulHarvest.RecentlyUsed(1000))
             return -10;
-
-
-        //Below are the conditions that we can optimize the use of the skills
         
         //if we are on the back of the Target and we have the aura of EnhancedGibbet, we will not use this solver
         if (Core.Me.HasAura(AurasDefine.EnhancedGibbet) && !Core.Resolve<MemApiTarget>().IsFlanking)
@@ -86,16 +84,16 @@ public class oGCD_BloodStalk : ISlotResolver
         {
             return -12;
         }
+                
+        //if Gluttony is coming and we have enough ShroudGauge, we will not use this solver
+        if (SpellsDefine.Gluttony.CoolDownInGCDs(5) && Core.Resolve<JobApi_Reaper>().SoulGauge < 100)
+            return -13;
+        
 
         if( SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds<10000 &&
             Core.Resolve<JobApi_Reaper>().ShroudGauge < 50)
             return 1;
-        
-        //if Gluttony is coming and we have enough ShroudGauge, we will not use this solver
-        if (SpellsDefine.Gluttony.CoolDownInGCDs(10) && 
-            Core.Resolve<JobApi_Reaper>().SoulGauge < 100)
-            return -13;
-        
+
         return 0;
     }
 
