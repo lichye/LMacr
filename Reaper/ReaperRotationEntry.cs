@@ -109,7 +109,7 @@ public class ReaperRotationEntry : IRotationEntry
         {
             TargetJob = Jobs.Reaper,
             AcrType = AcrType.Both,
-            MinLevel = 1,
+            MinLevel = 100,
             MaxLevel = 100,
             Description = "Reaper测试版",
         };
