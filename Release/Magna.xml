@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Magna</name>
+    </assembly>
+    <members>
+        <member name="T:LM.Reaper.ReaperRotationEventHandler">
+            <summary>
+            事件回调处理类 参考接口里的方法注释
+            </summary>
+        </member>
+        <member name="T:LM.Reaper.Setting.ReaperSettings">
+            <summary>
+            配置文件适合放一些一般不会在战斗中随时调整的开关数据
+            如果一些开关需要在战斗中调整 或者提供给时间轴操作 那就用QT
+            非开关类型的配置都放配置里 比如诗人绝峰能量配置
+            </summary>
+        </member>
+    </members>
+</doc>
