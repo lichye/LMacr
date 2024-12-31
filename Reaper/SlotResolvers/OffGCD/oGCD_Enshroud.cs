@@ -73,6 +73,11 @@ public class oGCD_Enshroud : ISlotResolver
             return -100;    
         }
 
+        //Immortal Sacrifice Check
+        if(Core.Me.HasAura(AurasDefine.ImmortalSacrifice)){
+            return -100;
+        }
+
         if(ReaperSettings.Instance.StandardShroud){
             return 1;
         }

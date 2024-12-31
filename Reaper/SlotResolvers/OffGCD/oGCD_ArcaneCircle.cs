@@ -27,7 +27,11 @@ public class oGCD_ArcaneCircle : ISlotResolver
         //Skill Ready Check
         if (!SpellsDefine.ArcaneCircle.IsReady())
             return -2;
-            
+
+        //If Standard Shroud is enabled, check if the GCD is ready
+        if(ReaperSettings.Instance.StandardShroud && GCDHelper.GetGCDCooldown()< 2*ReaperSettings.Instance.AnimationLock)
+            return -1;
+
         return 0;
     }
 

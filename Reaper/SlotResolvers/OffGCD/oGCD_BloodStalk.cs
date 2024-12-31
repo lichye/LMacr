@@ -55,7 +55,8 @@ public class oGCD_BloodStalk : ISlotResolver
         if (Core.Me.HasAura(AurasDefine.SoulReaver) || 
             Core.Me.HasAura(AurasDefine.Executioner) ||
             Core.Me.HasAura(AurasDefine.Enshrouded) ||
-            Core.Me.HasAura(AurasDefine.ImmortalSacrifice)
+            Core.Me.HasAura(AurasDefine.ImmortalSacrifice) ||
+            Core.Me.HasAura(AurasDefine.PerfectioParata)
             )
             return -5;
         
