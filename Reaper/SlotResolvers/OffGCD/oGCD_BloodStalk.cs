@@ -71,6 +71,10 @@ public class oGCD_BloodStalk : ISlotResolver
             if (Core.Resolve<MemApiSpell>().GetLastComboSpellId() == SpellsDefine.Slice ||
                 Core.Resolve<MemApiSpell>().GetLastComboSpellId() == SpellsDefine.WaxingSlice)
                 return -8;
+        
+        //Enti Overflow check
+        if (Core.Resolve<JobApi_Reaper>().SoulGauge == 100)
+            return 1;
 
         //Position check
         if(ReaperSettings.Instance.careAboutPos && Core.Me.GetCurrTarget().HasPositional()){

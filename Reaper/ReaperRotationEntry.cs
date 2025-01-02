@@ -111,7 +111,7 @@ public class ReaperRotationEntry : IRotationEntry
             AcrType = AcrType.Both,
             MinLevel = 100,
             MaxLevel = 100,
-            Description = "Reaper测试版",
+            Description = "人造剑尊杀戮-V0.7",
         };
 
         rot.AddOpener(GetOpener);
@@ -185,7 +185,7 @@ public class ReaperRotationEntry : IRotationEntry
     public void DrawQtGeneral(JobViewWindow jobViewWindow)
     {   
         
-        ImGui.Text("LM Reaper-V0.6");
+        ImGui.Text("LM Reaper-V0.7");
         if (ImGui.Button("日随模式")) {
             ReaperSettings.Instance.ArcaneCircle_GCD = 2;
             ReaperSettings.Instance.BaseGCD_BehindFirst = true;
@@ -243,7 +243,7 @@ public class ReaperRotationEntry : IRotationEntry
         }
         if(ImGui.CollapsingHeader("爆发期设置")){
             ImGui.Text("镰刀爆发期 -10 秒就开始了");
-            ImGui.Text("-10秒攒不够资源进双附体,ACR会爆炸，我还没修");
+            ImGui.Text("如果资源正常，就会打双附体，资源不够就会打单附体");
             ImGui.Text("循环设置");
             if(ImGui.Checkbox("双附体循环",ref ReaperSettings.Instance.DoubleEnshroud)){
                 ReaperSettings.Instance.StandardShroud = false;
@@ -254,7 +254,9 @@ public class ReaperRotationEntry : IRotationEntry
             }
             ImGui.Text("双附体触发时间");
             ImGui.Text("时间太高或者太低都不行，请根据自己网速/动画锁调整");
-            ImGui.SliderInt("毫秒", ref ReaperSettings.Instance.preEnshroudTime, 6000,8000);
+            ImGui.Text("完人打不进120就稍微拉高点");
+            ImGui.SliderInt("毫秒", ref ReaperSettings.Instance.preEnshroudTime, 5500,6500);
+            ImGui.InputInt("动画锁+网络延迟",ref ReaperSettings.Instance.AnimationLock);
         }
 
     }
@@ -262,15 +264,16 @@ public class ReaperRotationEntry : IRotationEntry
     public void DrawQtDev(JobViewWindow jobViewWindow)
     {
         ImGui.Text("画Dev信息");
-        foreach (var v in jobViewWindow.GetQtArray())
-        {
-            ImGui.Text($"Qt按钮: {v}");
-        }
+        // foreach (var v in jobViewWindow.GetQtArray())
+        // {
+        //     ImGui.Text($"Qt按钮: {v}");
+        // }
 
-        foreach (var v in jobViewWindow.GetHotkeyArray())
-        {
-            ImGui.Text($"Hotkey按钮: {v}");
-        }
+        // foreach (var v in jobViewWindow.GetHotkeyArray())
+        // {
+        //     ImGui.Text($"Hotkey按钮: {v}");
+        // }
+        ImGui.Text($"IsAbleDoubleENshroud:{ReaperBattleData.Instance.IsAbleDoubleEnshroud}");
         ImGui.Text($"AnimationLock:{ReaperSettings.Instance.AnimationLock}");
         ImGui.Text($"GCD_Time:{ReaperSettings.Instance.GCD_Time}");
         ImGui.Text($"ShadowofDeath_time:{ReaperSettings.Instance.ShadowofDeath_time}");

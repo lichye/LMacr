@@ -10,4 +10,15 @@ public class ReaperBattleData
     {
     
     }
+
+    public bool IsAbleDoubleEnshroud = false;
+
+    public bool AutoDoubleEnshroud = false;
+
+    public bool DoOneReaping = false;
+
+    public int ShadowOfDeathInEnshroud = 0;
+
+     
+
 }

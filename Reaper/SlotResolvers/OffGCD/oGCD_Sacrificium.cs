@@ -33,6 +33,11 @@ public class oGCD_Sacrificium : ISlotResolver
         // ArcaneCircle Check
         if (SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds < 10000)
             return -4;
+        
+        // ArcaneCircle buff Check
+        if (SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds > 110000 &&
+            !Core.Me.HasAura(AurasDefine.ArcaneCircle))
+            return -6;
 
         return 0;
     }

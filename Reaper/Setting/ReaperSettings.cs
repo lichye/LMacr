@@ -57,7 +57,7 @@ public class ReaperSettings
 
     public bool DoubleEnshroud = true;
 
-    public int preEnshroudTime = 6000;
+    public int preEnshroudTime = 6500;
 
     public bool StandardShroud = false;
 
@@ -70,7 +70,7 @@ public class ReaperSettings
 
     // public const char* 
 
-    public int Harpe_time = 5000;
+    public int Harpe_time = 1500;
 
 
     public int ShadowofDeath_time = 3000;

@@ -23,6 +23,10 @@ public class oGCD_ArcaneCircle : ISlotResolver
         // Non-conflict with GCD check
         if (GCDHelper.GetGCDCooldown() < ReaperSettings.Instance.AnimationLock)
             return -2;
+        
+        // 神奇的优化
+        if (GCDHelper.GetGCDCooldown()> ReaperSettings.Instance.AnimationLock+400)
+            return -4;
 
         //Skill Ready Check
         if (!SpellsDefine.ArcaneCircle.IsReady())

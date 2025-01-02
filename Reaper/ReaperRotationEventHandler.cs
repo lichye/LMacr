@@ -6,6 +6,7 @@ using AEAssist.CombatRoutine.Module;
 using AEAssist.Extension;
 using AEAssist.Helper;
 using System.Xml.Linq;
+using AEAssist.JobApi;
 
 namespace LM.Reaper;
 
@@ -15,7 +16,6 @@ namespace LM.Reaper;
 public class ReaperRotationEventHandler : IRotationEventHandler
 {
     public static long times;
-    private bool 易伤;
     public async Task OnPreCombat()
     {
     }
@@ -25,7 +25,6 @@ public class ReaperRotationEventHandler : IRotationEventHandler
         // 重置战斗中缓存的数据
         ReaperBattleData.Instance = new();
         times = 0;
-        易伤 = false;
     }
 
     public async Task OnNoTarget()
@@ -56,19 +55,18 @@ public class ReaperRotationEventHandler : IRotationEventHandler
 
     public void OnBattleUpdate(int currTimeInMs)
     {
-        if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign, 100))
-        {
-            if (易伤)
-            {
-                times = AI.Instance.BattleData.CurrBattleTimeInMs / 1000;
-                易伤 = false;
-            }
-        }
-        else 易伤 = true;
+        if(Core.Resolve<JobApi_Reaper>().ShroudGauge >=50)
+            ReaperBattleData.Instance.IsAbleDoubleEnshroud = true;
 
-
-
-
+        // if (SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds <12000 &&
+        //     SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds > 8000 &&
+        //     !ReaperBattleData.Instance.IsAbleDoubleEnshroud){
+        //         if(Core.Resolve<JobApi_Reaper>().ShroudGauge >50)
+        //             ReaperBattleData.Instance.IsAbleDoubleEnshroud = true;
+        //     }
+        
+        // if (SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds >90000)
+        //     ReaperBattleData.Instance.IsAbleDoubleEnshroud = false;
     }
 
     public void OnEnterRotation()

@@ -21,6 +21,10 @@ public class oGCD_Enshroud : ISlotResolver
         if(Core.Me.Level < 80)
             return -1;
         
+         // Non-conflict with GCD check
+        if (GCDHelper.GetGCDCooldown() < ReaperSettings.Instance.AnimationLock)
+            return -2;
+        
         // QT Check
         if(!ReaperRotationEntry.QT.GetQt(QTKey.Enshroud))
             return -1;
@@ -46,14 +50,25 @@ public class oGCD_Enshroud : ISlotResolver
 
         
 
-        // In Double Enshroud mode
+        // In Double Enshroud Trigger
         if (ReaperSettings.Instance.DoubleEnshroud){
+            // Double Enshroud Ability Check
+            if (!ReaperBattleData.Instance.IsAbleDoubleEnshroud)
+                return -100;
             // preEnshroudTime Check
-            if(SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds < ReaperSettings.Instance.preEnshroudTime)
+            if(SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds < ReaperSettings.Instance.preEnshroudTime){
+                ReaperBattleData.Instance.AutoDoubleEnshroud = true;
+                ReaperBattleData.Instance.DoOneReaping = true;
                 return 2;
+            }
+                
         }
 
         //Below is the Auto Enshroud Mode
+        //check the SoulSlice
+        if(SpellsDefine.SoulSlice.IsReady()){
+            return -100;
+        }
 
         //Enough ShroudGauge Check
         if(Core.Resolve<JobApi_Reaper>().ShroudGauge < ReaperSettings.Instance.Enshroud_threadhold)
@@ -78,10 +93,12 @@ public class oGCD_Enshroud : ISlotResolver
             return -100;
         }
 
+        //Standard Shroud Trigger
         if(ReaperSettings.Instance.StandardShroud){
             return 1;
         }
 
+        // Auto Enshroud Trigger
         if(ReaperSettings.Instance.DoubleEnshroud){
             //we need to think whether this usage of Enshroud will lead us cannot do Double Enshroud
             int remainEnough = Core.Resolve<JobApi_Reaper>().ShroudGauge - 50;

@@ -14,7 +14,7 @@ public class oGCD_Lemure : ISlotResolver
     private Spell GetSpell()
     {
         var aoeCount = TargetHelper.GetNearbyEnemyCount(Core.Me, 5, 5);
-        if (aoeCount >= 3 || ReaperRotationEntry.QT.GetQt(QTKey.AOE))
+        if (aoeCount >= 3 && ReaperRotationEntry.QT.GetQt(QTKey.AOE))
             return SpellsDefine.LemuresScythe.GetSpell();
         return SpellsDefine.LemuresSlice.GetSpell();
     }
