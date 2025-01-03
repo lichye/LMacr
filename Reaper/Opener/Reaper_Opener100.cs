@@ -16,6 +16,7 @@ public class Reaper_Opener100 : IOpener
 {
     public int StartCheck()
     {   
+        
         //if Battletime is too long, then we do not need the opener
         if(AI.Instance.BattleData.CurrBattleTimeInMs > 5000)
             return -1;
@@ -27,6 +28,11 @@ public class Reaper_Opener100 : IOpener
         //if we are Enshrouded,then we do not need the opener
         if (Core.Me.HasAura(AurasDefine.Enshrouded))
             return -1;
+        
+        //if we have enough ShroudGauge, then we do not need the opener
+        if (Core.Resolve<JobApi_Reaper>().ShroudGauge >=50)
+            return -1;
+        
         return 0;
     }
 

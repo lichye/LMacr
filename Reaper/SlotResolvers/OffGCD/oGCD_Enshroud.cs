@@ -82,6 +82,7 @@ public class oGCD_Enshroud : ISlotResolver
         if(Core.Resolve<JobApi_Reaper>().SoulGauge<= 30 &&
           SpellsDefine.Gluttony.GetSpell().Cooldown.TotalMilliseconds< SpellsDefine.SoulSlice.GetSpell().Cooldown.TotalMilliseconds)
             return -100;
+        
 
         // Auto Enshroud Mode
         if(!ReaperSettings.Instance.AutoEnshroud){
@@ -97,6 +98,8 @@ public class oGCD_Enshroud : ISlotResolver
         if(ReaperSettings.Instance.StandardShroud){
             return 1;
         }
+
+        
 
         // Auto Enshroud Trigger
         if(ReaperSettings.Instance.DoubleEnshroud){

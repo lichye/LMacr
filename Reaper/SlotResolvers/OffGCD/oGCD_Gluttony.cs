@@ -36,6 +36,10 @@ public class offGCD_Gluttony : ISlotResolver
         if (Core.Me.Distance(Core.Me.GetCurrTarget()) >
             SettingMgr.GetSetting<GeneralSettings>().AttackRange)
             return -3;
+        
+        // SoulSlice Check
+        if (SpellsDefine.SoulSlice.IsReady()&&Core.Resolve<JobApi_Reaper>().SoulGauge<=50)
+            return -1;
 
         // DeathsDesign Check
         if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign,
@@ -46,7 +50,9 @@ public class offGCD_Gluttony : ISlotResolver
         if (Core.Me.HasAura(AurasDefine.Enshrouded)||
             Core.Me.HasAura(AurasDefine.SoulReaver)||
             Core.Me.HasAura(AurasDefine.ImmortalSacrifice)||
-            Core.Me.HasAura(AurasDefine.IdealHost))
+            Core.Me.HasAura(AurasDefine.IdealHost)||
+            Core.Me.HasAura(AurasDefine.PerfectioParata)
+            )
             return -7;
         
         // Double Enshroud Check

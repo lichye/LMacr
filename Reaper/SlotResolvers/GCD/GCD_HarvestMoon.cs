@@ -32,6 +32,7 @@ public class GCD_HarvestMoon : ISlotResolver
         // Buff confiction Check
         if (Core.Me.HasAura(AurasDefine.Enshrouded)||
             Core.Me.HasAura(AurasDefine.SoulReaver)||
+            Core.Me.HasAura(AurasDefine.Executioner)||
             Core.Me.HasAura(AurasDefine.ImmortalSacrifice)||
             Core.Me.HasAura(AurasDefine.IdealHost))
             return -7;

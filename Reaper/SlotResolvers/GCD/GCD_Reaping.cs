@@ -12,6 +12,14 @@ public class GCD_Reaping : ISlotResolver
 {
     private Spell GetSpell()
     {
+        //AOE
+        if (ReaperRotationEntry.QT.GetQt(QTKey.AOE))
+        {
+            var aoeCount = TargetHelper.GetNearbyEnemyCount(Core.Me, 8, 8);
+            if (aoeCount >= 3)
+                return SpellsDefine.GrimReaping.GetSpell();
+        }
+
         if (Core.Resolve<JobApi_Reaper>().LemureShroud < 2
             && SpellsDefine.Communio.IsUnlock())
             return SpellsDefine.Communio.GetSpell();
