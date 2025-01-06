@@ -3,12 +3,17 @@ using AEAssist;
 using AEAssist.CombatRoutine.Module;
 using AEAssist.Helper;
 using AEAssist.MemoryApi;
-using AEAssist.Extension;
 using AEAssist.JobApi;
 using static System.Windows.Forms.Design.AxImporter;
 using System.CodeDom;
+using AEAssist.Avoid;
+using AEAssist.CombatRoutine.Module.Target;
+using AEAssist.Extension;
+using AEAssist.Module.Avoid;
 using LM.Reaper.Setting;
 namespace LM.Reaper.SlotResolvers.GCD;
+using System.Collections.Generic;
+using Dalamud.Game.ClientState.Objects.Types;
 
 public class GCD_ShadowofDeath : ISlotResolver
 {
@@ -18,9 +23,11 @@ public class GCD_ShadowofDeath : ISlotResolver
 
     private Spell GetSpell()
     {   
+        
         //if in aoe mode
         if (ReaperRotationEntry.QT.GetQt(QTKey.AOE))
         {
+            
             var aoeCount = TargetHelper.GetNearbyEnemyCount(Core.Me, 5, 5);
             
             //if there are more than 2 enemies around us and we are at least level 35

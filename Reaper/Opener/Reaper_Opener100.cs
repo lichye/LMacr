@@ -33,6 +33,11 @@ public class Reaper_Opener100 : IOpener
         if (Core.Resolve<JobApi_Reaper>().ShroudGauge >=50)
             return -1;
         
+        //Normal Mode Check
+        if(ReaperSettings.Instance.Normal)
+            return -1;
+        
+        
         return 0;
     }
 

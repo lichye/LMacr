@@ -187,6 +187,8 @@ public class ReaperRotationEntry : IRotationEntry
         
         ImGui.Text("LM Reaper-V0.7");
         if (ImGui.Button("日随模式")) {
+            ReaperSettings.Instance.Normal = true;
+            ReaperSettings.Instance.HighEnd = false;
             ReaperSettings.Instance.ArcaneCircle_GCD = 2;
             ReaperSettings.Instance.BaseGCD_BehindFirst = true;
             ReaperSettings.Instance.PreHarpe = false;
@@ -199,6 +201,8 @@ public class ReaperRotationEntry : IRotationEntry
         }
         ImGui.SameLine();
         if (ImGui.Button("高难模式")){
+            ReaperSettings.Instance.Normal = false;
+            ReaperSettings.Instance.HighEnd = true;
             ReaperSettings.Instance.ArcaneCircle_GCD = 2;
             ReaperSettings.Instance.BaseGCD_BehindFirst = true;
             ReaperSettings.Instance.PreHarpe = true;

@@ -5,7 +5,7 @@
     <Platforms>x64</Platforms>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GenerateDependencyFile>true</GenerateDependencyFile>
-    <OutputPath>D:\FF14\AE\ACR\Magna</OutputPath>
+    <OutputPath>D:\FF14\AE\ACR\LM</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <NoWarn>CA1416,CS1591,CS0618,CS0436,CS8632,CS1998</NoWarn>
     <UseWindowsForms>true</UseWindowsForms>

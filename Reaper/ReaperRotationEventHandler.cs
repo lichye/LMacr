@@ -1,13 +1,21 @@
-using System.Threading.Tasks;
-using LM.Reaper.Setting;
+//AE APIs
 using AEAssist;
 using AEAssist.CombatRoutine;
 using AEAssist.CombatRoutine.Module;
 using AEAssist.Extension;
 using AEAssist.Helper;
-using System.Xml.Linq;
+using AEAssist.MemoryApi;
 using AEAssist.JobApi;
 
+//Dalamud APIs
+using Dalamud.Game.ClientState.Objects.Types;
+
+//System APIs
+using System.Xml.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+using LM.Reaper.Setting;
 namespace LM.Reaper;
 
 /// <summary>
@@ -55,18 +63,8 @@ public class ReaperRotationEventHandler : IRotationEventHandler
 
     public void OnBattleUpdate(int currTimeInMs)
     {
-        if(Core.Resolve<JobApi_Reaper>().ShroudGauge >=50)
-            ReaperBattleData.Instance.IsAbleDoubleEnshroud = true;
-
-        // if (SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds <12000 &&
-        //     SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds > 8000 &&
-        //     !ReaperBattleData.Instance.IsAbleDoubleEnshroud){
-        //         if(Core.Resolve<JobApi_Reaper>().ShroudGauge >50)
-        //             ReaperBattleData.Instance.IsAbleDoubleEnshroud = true;
-        //     }
-        
-        // if (SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds >90000)
-        //     ReaperBattleData.Instance.IsAbleDoubleEnshroud = false;
+        UpdateShroudGauge();
+        UpdateTargetWithoutDealthDesign();
     }
 
     public void OnEnterRotation()
@@ -81,6 +79,27 @@ public class ReaperRotationEventHandler : IRotationEventHandler
 
     public void OnTerritoryChanged()
     {
+
+    }
+
+    private void UpdateShroudGauge()
+    {
+        if(Core.Resolve<JobApi_Reaper>().ShroudGauge >=50)
+            ReaperBattleData.Instance.IsAbleDoubleEnshroud = true;
+    }
+
+    private void UpdateTargetWithoutDealthDesign()
+    {
+        // TargetMgr.Instance.Enemys.Values
+        // Dictionary<uint, IGameObject> dict = new Dictionary<uint, IGameObject>();
+        // Core.Resolve<MemApiTarget>().GetNearbyGameObjects(5, dict);
+        // int count = 0;
+        // foreach (KeyValuePair<uint, IGameObject> v in dict)
+        // {
+        //     if (!v.Value.HasMyAura(AurasDefine.DeathsDesign))
+        //         count++;
+        // }
+        // ReaperBattleData.Instance.targetWithoutDeathsDesign = count;
 
     }
 }

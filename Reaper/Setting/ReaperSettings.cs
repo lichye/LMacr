@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using AEAssist;
+using AEAssist.CombatRoutine.Trigger;
 using AEAssist.CombatRoutine.View.JobView;
 using AEAssist.Helper;
 using AEAssist.IO;
@@ -45,6 +46,10 @@ public class ReaperSettings
         File.WriteAllText(path, JsonHelper.ToJson(this));
     }
     #endregion
+
+    public bool HighEnd = false;
+
+    public bool Normal = true;
 
     public bool PreHarpe = true;
     public bool OpenerNoPos = true;

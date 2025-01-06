@@ -11,6 +11,7 @@ public class ReaperBattleData
     
     }
 
+    public int targetWithoutDeathsDesign = 0;
     public bool IsAbleDoubleEnshroud = false;
 
     public bool AutoDoubleEnshroud = false;
