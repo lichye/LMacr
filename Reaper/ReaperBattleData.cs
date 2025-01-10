@@ -12,10 +12,15 @@ public class ReaperBattleData
     }
 
     public int targetWithoutDeathsDesign = 0;
+
+    public int targetNearbyCount = 0;
+
     public bool IsAbleDoubleEnshroud = false;
 
+    //This means we are in the process of double enshroud
     public bool AutoDoubleEnshroud = false;
 
+    public bool HoldPlentifulHarvest = false;
     public bool DoOneReaping = false;
 
     public int ShadowOfDeathInEnshroud = 0;

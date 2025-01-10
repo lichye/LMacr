@@ -15,7 +15,7 @@ public class GCD_PlentifulHarvest : ISlotResolver
         //Level Check
         if (Core.Me.Level < 88)
             return -1;
-
+        
         //Buff confiction Check
         if (Core.Me.HasAura(AurasDefine.SoulReaver) || 
             Core.Me.HasAura(AurasDefine.Executioner)||
@@ -24,6 +24,10 @@ public class GCD_PlentifulHarvest : ISlotResolver
             Core.Me.HasAura(AurasDefine.Enshrouded)
             )
             return -2;
+
+        if (ReaperBattleData.Instance.HoldPlentifulHarvest
+            &&!Core.Me.HasMyAuraWithTimeleft(AurasDefine.ArcaneCircle, 17000))
+            return 1;
 
         //Target Distance Check
         if (Core.Me.Distance(Core.Me.GetCurrTarget()) > 15)

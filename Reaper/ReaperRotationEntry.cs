@@ -59,11 +59,11 @@ public class ReaperRotationEntry : IRotationEntry
 
         new(new GCD_Reaping(),SlotMode.Gcd),
 
-        new(new GCD_HarvestMoon(),SlotMode.Gcd),
-
         new(new GCD_Gibbet(),SlotMode.Gcd),
 
         new(new GCD_SoulSlice(),SlotMode.Gcd),
+
+        new(new GCD_HarvestMoon(),SlotMode.Gcd),
 
         new(new GCD_AOE(),SlotMode.Gcd),
 
@@ -111,7 +111,7 @@ public class ReaperRotationEntry : IRotationEntry
             AcrType = AcrType.Both,
             MinLevel = 100,
             MaxLevel = 100,
-            Description = "人造剑尊杀戮-V0.7",
+            Description = "镰刀-V0.19",
         };
 
         rot.AddOpener(GetOpener);
@@ -122,7 +122,7 @@ public class ReaperRotationEntry : IRotationEntry
 
     IOpener? GetOpener(uint level)
     {
-        if(level == 100)
+        if(level >= 80)
         {
             return new Reaper_Opener100();
         }
@@ -140,12 +140,13 @@ public class ReaperRotationEntry : IRotationEntry
         QT.SetUpdateAction(OnUIUpdate); // 设置QT中的Update回调 不需要就不设置
         //添加QT分页 第一个参数是分页标题 第二个是分页里的内容
         QT.AddTab("必看设置", DrawQtGeneral);
-        // QT.AddTab("Dev", DrawQtDev);
+        QT.AddTab("Dev", DrawQtDev);
 
         // 添加QT开关 第二个参数是默认值 (开or关) 第三个参数是鼠标悬浮时的tips
         // QT.AddQt(QTKey.UsePotion, true);
         // QT.AddQt(QTKey.Burst, true);
         
+        QT.AddQt(QTKey.Burst, true);
         QT.AddQt(QTKey.AOE, true);
         QT.AddQt(QTKey.HarvestMoon, true);
         QT.AddQt(QTKey.Enshroud, true);
@@ -184,8 +185,6 @@ public class ReaperRotationEntry : IRotationEntry
 
     public void DrawQtGeneral(JobViewWindow jobViewWindow)
     {   
-        
-        ImGui.Text("LM Reaper-V0.7");
         if (ImGui.Button("日随模式")) {
             ReaperSettings.Instance.Normal = true;
             ReaperSettings.Instance.HighEnd = false;
@@ -279,11 +278,15 @@ public class ReaperRotationEntry : IRotationEntry
         // {
         //     ImGui.Text($"Hotkey按钮: {v}");
         // }
-        ImGui.Text($"IsAbleDoubleENshroud:{ReaperBattleData.Instance.IsAbleDoubleEnshroud}");
-        ImGui.Text($"AnimationLock:{ReaperSettings.Instance.AnimationLock}");
-        ImGui.Text($"GCD_Time:{ReaperSettings.Instance.GCD_Time}");
-        ImGui.Text($"ShadowofDeath_time:{ReaperSettings.Instance.ShadowofDeath_time}");
-        ImGui.Text($"preEnshroudTime:{ReaperSettings.Instance.preEnshroudTime}");
+        // ImGui.Text($"IsAbleDoubleENshroud:{ReaperBattleData.Instance.IsAbleDoubleEnshroud}");
+        // ImGui.Text($"AnimationLock:{ReaperSettings.Instance.AnimationLock}");
+        // ImGui.Text($"GCD_Time:{ReaperSettings.Instance.GCD_Time}");
+        // ImGui.Text($"ShadowofDeath_time:{ReaperSettings.Instance.ShadowofDeath_time}");
+        // ImGui.Text($"preEnshroudTime:{ReaperSettings.Instance.preEnshroudTime}");
+        ImGui.Text($"DoubleEnshroud:{ReaperSettings.Instance.DoubleEnshroud}");
+        ImGui.Text($"targetWithoutDeathsDesign:{ReaperBattleData.Instance.targetWithoutDeathsDesign}");
+        ImGui.Text($"HoldPlentifulHarvest:{ReaperBattleData.Instance.HoldPlentifulHarvest}");
+        ImGui.Text($"targetNearbyCount:{ReaperBattleData.Instance.targetNearbyCount}");
     }
 
     public void Dispose()

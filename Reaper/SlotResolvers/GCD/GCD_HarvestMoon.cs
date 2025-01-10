@@ -34,7 +34,8 @@ public class GCD_HarvestMoon : ISlotResolver
             Core.Me.HasAura(AurasDefine.SoulReaver)||
             Core.Me.HasAura(AurasDefine.Executioner)||
             Core.Me.HasAura(AurasDefine.ImmortalSacrifice)||
-            Core.Me.HasAura(AurasDefine.IdealHost))
+            Core.Me.HasAura(AurasDefine.IdealHost) ||
+            Core.Me.HasAura(AurasDefine.ArcaneCircle))
             return -7;
         
         return 1;

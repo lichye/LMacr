@@ -25,14 +25,9 @@ public class GCD_ShadowofDeath : ISlotResolver
     {   
         
         //if in aoe mode
-        if (ReaperRotationEntry.QT.GetQt(QTKey.AOE))
+        if (ReaperRotationEntry.QT.GetQt(QTKey.AOE) && ReaperBattleData.Instance.targetWithoutDeathsDesign>=2)
         {
-            
-            var aoeCount = TargetHelper.GetNearbyEnemyCount(Core.Me, 5, 5);
-            
-            //if there are more than 2 enemies around us and we are at least level 35
-            if (aoeCount >= 2&& Core.Me.Level >= 35)
-                return SpellsDefine.WhorlOfDeath.GetSpell();
+            return SpellsDefine.WhorlOfDeath.GetSpell();
         }
 
         if(ReaperBattleData.Instance.AutoDoubleEnshroud){
@@ -82,9 +77,24 @@ public class GCD_ShadowofDeath : ISlotResolver
             }       
         }
 
-                
         if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign, ReaperSettings.Instance.ShadowofDeath_time))
             return 1;
+
+         //if in aoe mode
+        if (ReaperRotationEntry.QT.GetQt(QTKey.AOE) && ReaperBattleData.Instance.targetWithoutDeathsDesign>=2)
+        {
+            return 2;
+        }
+
+        // if glutony is ready and shadowofdeath will lose effect
+
+        if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign, ReaperSettings.Instance.GCD_Time*2+ReaperSettings.Instance.AnimationLock*3))
+        {
+            if (SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMicroseconds<ReaperSettings.Instance.GCD_Time*2+ReaperSettings.Instance.AnimationLock*3)
+            {
+                return 3;
+            }
+        }
 
         //Normally not use
         return -1;

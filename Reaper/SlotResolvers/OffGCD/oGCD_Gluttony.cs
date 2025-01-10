@@ -20,31 +20,39 @@ public class offGCD_Gluttony : ISlotResolver
     }
     public int Check()
     {    
+        // Turn off the burst mode
+        if(!ReaperRotationEntry.QT.GetQt(QTKey.Burst))
+            return -1;
+            
         //Level Check
         if (Core.Me.Level < 76)
-            return -1;
+            return -2;
+        
+        //If both AraneCircle and Gluttony are ready, we will use ArcaneCircle first
+        if (SpellsDefine.ArcaneCircle.IsReady())
+            return -3;
         
         //Skill Ready Check
         if (Core.Resolve<JobApi_Reaper>().SoulGauge < 50 ||!SpellsDefine.Gluttony.IsReady())
-            return -2;
+            return -3;
 
         //GCD confiction Check
         if (GCDHelper.GetGCDCooldown() < 600)
-            return -3;
+            return -4;
         
         // Target Distance Check
         if (Core.Me.Distance(Core.Me.GetCurrTarget()) >
             SettingMgr.GetSetting<GeneralSettings>().AttackRange)
-            return -3;
+            return -5;
         
-        // SoulSlice Check
-        if (SpellsDefine.SoulSlice.IsReady()&&Core.Resolve<JobApi_Reaper>().SoulGauge<=50)
-            return -1;
+        // // SoulSlice Check
+        // if (SpellsDefine.SoulSlice.IsReady()&&Core.Resolve<JobApi_Reaper>().SoulGauge<=50)
+        //     return -6;
 
         // DeathsDesign Check
         if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign,
             ReaperSettings.Instance.GCD_Time*2+ReaperSettings.Instance.AnimationLock*3))
-            return -6;
+            return -7;
         
         // Buff confiction Check
         if (Core.Me.HasAura(AurasDefine.Enshrouded)||
@@ -53,13 +61,13 @@ public class offGCD_Gluttony : ISlotResolver
             Core.Me.HasAura(AurasDefine.IdealHost)||
             Core.Me.HasAura(AurasDefine.PerfectioParata)
             )
-            return -7;
+            return -8;
         
         // Double Enshroud Check
         if (ReaperSettings.Instance.DoubleEnshroud)
         {
             if(Core.Me.HasAura(AurasDefine.ArcaneCircle))
-                return -1;
+                return -9;
         }
 
         return 0;

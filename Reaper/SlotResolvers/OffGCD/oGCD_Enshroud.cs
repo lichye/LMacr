@@ -17,6 +17,9 @@ public class oGCD_Enshroud : ISlotResolver
     }
     public int Check()
     {   
+        // Turn off the burst mode
+        if(!ReaperRotationEntry.QT.GetQt(QTKey.Burst))
+            return -1;
         // Level Check
         if(Core.Me.Level < 80)
             return -1;
