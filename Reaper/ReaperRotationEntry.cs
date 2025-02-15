@@ -18,7 +18,7 @@ using LM.Reaper.Setting;
 
 using System;
 using System.Collections.Generic;
-
+using System.Numerics; 
 namespace LM.Reaper;
 
 public class ReaperRotationEntry : IRotationEntry
@@ -139,7 +139,9 @@ public class ReaperRotationEntry : IRotationEntry
         QT = new JobViewWindow(ReaperSettings.Instance.JobViewSave, ReaperSettings.Instance.Save, "LM Reaper-V0.5");
         QT.SetUpdateAction(OnUIUpdate); // 设置QT中的Update回调 不需要就不设置
         //添加QT分页 第一个参数是分页标题 第二个是分页里的内容
-        QT.AddTab("必看设置", DrawQtGeneral);
+        QT.AddTab("模式设置", DrawQtGeneral);
+        QT.AddTab("日随设置", DrawNormalSetting);
+        QT.AddTab("高难设置", DrawHighEndSetting);
         QT.AddTab("Dev", DrawQtDev);
 
         // 添加QT开关 第二个参数是默认值 (开or关) 第三个参数是鼠标悬浮时的tips
@@ -185,7 +187,24 @@ public class ReaperRotationEntry : IRotationEntry
 
     public void DrawQtGeneral(JobViewWindow jobViewWindow)
     {   
+        ImGui.Text("镰刀-V0.19");
+         if (ReaperSettings.Instance.Normal)
+        {
+            ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(1.0f, 0.0f, 0.0f, 1.0f)); // 选中时为红色
+            ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Vector4(0.8f, 0.0f, 0.0f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.ButtonActive, new Vector4(0.6f, 0.0f, 0.0f, 1.0f));
+        }
+        else
+        {
+            ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0.5f, 0.5f, 0.5f, 1.0f)); // 未选中时为灰色
+            ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.ButtonActive, new Vector4(0.7f, 0.7f, 0.7f, 1.0f));
+        }
+
         if (ImGui.Button("日随模式")) {
+            // ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(1.0f, 0.0f, 0.0f, 1.0f)); // 选中时红色
+            // ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Vector4(0.8f, 0.0f, 0.0f, 1.0f));
+            // ImGui.PushStyleColor(ImGuiCol.ButtonActive, new Vector4(0.6f, 0.0f, 0.0f, 1.0f));
             ReaperSettings.Instance.Normal = true;
             ReaperSettings.Instance.HighEnd = false;
             ReaperSettings.Instance.ArcaneCircle_GCD = 2;
@@ -199,6 +218,19 @@ public class ReaperRotationEntry : IRotationEntry
             ReaperSettings.Instance.StandardShroud = true;
         }
         ImGui.SameLine();
+        if (ReaperSettings.Instance.HighEnd)
+        {
+            ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(1.0f, 0.0f, 0.0f, 1.0f)); // 选中时为红色
+            ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Vector4(0.8f, 0.0f, 0.0f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.ButtonActive, new Vector4(0.6f, 0.0f, 0.0f, 1.0f));
+        }
+        else
+        {
+            ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0.5f, 0.5f, 0.5f, 1.0f)); // 未选中时为灰色
+            ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.ButtonActive, new Vector4(0.7f, 0.7f, 0.7f, 1.0f));
+        }
+
         if (ImGui.Button("高难模式")){
             ReaperSettings.Instance.Normal = false;
             ReaperSettings.Instance.HighEnd = true;
@@ -213,59 +245,47 @@ public class ReaperRotationEntry : IRotationEntry
             ReaperSettings.Instance.StandardShroud = false;
         }
 
-        
-        if (ImGui.CollapsingHeader("起手设置")) {
+        ImGui.Text("施工方向：");
+        ImGui.Text("1. 爆发药支持");
+        ImGui.Text("2. 90级双附体支持");
+    }
 
+    public void DrawNormalSetting(JobViewWindow jobViewWindow)
+    {
+        ImGui.Text("日随模式");
+        ImGui.Text("使用暴食对齐120工整循环");
+
+        ImGui.Text("死亡之影续buff时间");
+        ImGui.SliderInt("毫秒", ref ReaperSettings.Instance.ShadowofDeath_time, 1000, 5000);
+        ImGui.Checkbox("身位正确则使用身位技能，否则憋着",ref ReaperSettings.Instance.careAboutPos);
+        ImGui.Checkbox("起手打背",ref ReaperSettings.Instance.BaseGCD_BehindFirst);
+    }
+
+    public void DrawHighEndSetting(JobViewWindow jobViewWindow)
+    {   
+        if (ImGui.CollapsingHeader("说明")){
+            ImGui.Text("高难模式下，默认使用双附体");
+        }
+        if (ImGui.CollapsingHeader("起手设置")) {
             ImGui.Text("起手设置 2G/3G");
+            ImGui.SameLine();
             ImGui.SliderInt("GCD", ref ReaperSettings.Instance.ArcaneCircle_GCD, 2, 3);
             ImGui.Checkbox("预读勾刃",ref ReaperSettings.Instance.PreHarpe);
-
-            ImGui.Text("");
             ImGui.Text("爆发药ID:");
             ImGui.SameLine();
             ImGui.InputInt("整数输入", ref ReaperSettings.Instance.Gemdraught_id);
         }
 
-        if(ImGui.CollapsingHeader("循环设置")){
-            ImGui.Text("镰刀爆发期 -10 秒就开始了");
-            ImGui.Text("如果资源正常，就会打双附体，资源不够就会打单附体");
-            ImGui.Text("循环设置");
-            if(ImGui.Checkbox("双附体循环",ref ReaperSettings.Instance.DoubleEnshroud)){
-                ReaperSettings.Instance.StandardShroud = false;
-            }
-            ImGui.SameLine();
-            if(ImGui.Checkbox("单附体循环",ref ReaperSettings.Instance.StandardShroud)){
-                ReaperSettings.Instance.DoubleEnshroud = false;
-            }
-            // ImGui.Text("双附体触发时间");
-            // ImGui.Text("时间太高或者太低都不行，请根据自己网速/动画锁调整");
-            // ImGui.Text("完人打不进120就稍微拉高点");
-            // ImGui.SliderInt("毫秒", ref ReaperSettings.Instance.preEnshroudTime, 5500,6500);
-            // ImGui.InputInt("动画锁+网络延迟",ref ReaperSettings.Instance.AnimationLock);
-        }
-
         if(ImGui.CollapsingHeader("身位buff设置")){
             ImGui.Text("死亡之影续buff时间");
             ImGui.SliderInt("毫秒", ref ReaperSettings.Instance.ShadowofDeath_time, 1000, 5000);
-
-            ImGui.Text("");
-            ImGui.Text("绞决-缢杀身位设置");
-            ImGui.Checkbox("正确身位触发绞决-缢杀",ref ReaperSettings.Instance.careAboutPos);
-
-            ImGui.Text("");
+            ImGui.Checkbox("身位正确则使用身位技能，否则憋着",ref ReaperSettings.Instance.careAboutPos);
             ImGui.Checkbox("起手打背",ref ReaperSettings.Instance.BaseGCD_BehindFirst);
-
-            ImGui.Text("");
-            ImGui.Text("资源期附体设置");
             ImGui.Checkbox("自动附体",ref ReaperSettings.Instance.AutoEnshroud);
-
             ImGui.Text("资源期自动附体多少蓝量触发");
             ImGui.SliderInt("蓝量", ref ReaperSettings.Instance.Enshroud_threadhold, 50, 100);
         }
-        
-
     }
-
     public void DrawQtDev(JobViewWindow jobViewWindow)
     {
         ImGui.Text("画Dev信息");
