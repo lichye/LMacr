@@ -93,7 +93,7 @@ public class oGCD_BloodStalk : ISlotResolver
         
                 
         //Gluttony check
-        if (SpellsDefine.Gluttony.CoolDownInGCDs(5) && Core.Resolve<JobApi_Reaper>().SoulGauge < 100)
+        if (SpellsDefine.Gluttony.CoolDownInGCDs(5) && Core.Resolve<JobApi_Reaper>().SoulGauge < 100 && Core.Me.Level >= 76)
             return -13;
         
         

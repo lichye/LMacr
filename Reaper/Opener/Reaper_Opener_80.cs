@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace LM.Reaper.Opener;
 
-public class Reaper_Opener100 : IOpener
+public class Reaper_Opener_80 : IOpener
 {
     public int StartCheck()
     {   
@@ -72,10 +72,9 @@ public class Reaper_Opener100 : IOpener
 
     private static void GCD_2(Slot slot)
     {
-        
         if(ReaperSettings.Instance.ArcaneCircle_GCD == 2){
             slot.Add(new Spell(SpellsDefine.SoulSlice, SpellTargetType.Target));
-            slot.Add(new Spell(SpellsDefine.ArcaneCircle, SpellTargetType.Self));
+            slot.Add(new Spell(SpellsDefine.ArcaneCircle, SpellTargetType.Self));       
             slot.Add(new Spell(SpellsDefine.Gluttony, SpellTargetType.Target));
         }
         else{
@@ -89,9 +88,9 @@ public class Reaper_Opener100 : IOpener
     {
         if(ReaperSettings.Instance.ArcaneCircle_GCD == 2){
             if (ReaperSettings.Instance.BaseGCD_BehindFirst)
-                slot.Add(new Spell(SpellsDefine.ExGallows, SpellTargetType.Target));
+                slot.Add(new Spell(SpellsDefine.Gallows, SpellTargetType.Target));
             else
-                slot.Add(new Spell(SpellsDefine.ExGibbet, SpellTargetType.Target)); 
+                slot.Add(new Spell(SpellsDefine.Gibbet, SpellTargetType.Target)); 
         }
         else{
             slot.Add(new Spell(SpellsDefine.SoulSlice, SpellTargetType.Target));
@@ -105,15 +104,15 @@ public class Reaper_Opener100 : IOpener
     {
         if(ReaperSettings.Instance.ArcaneCircle_GCD == 2){
             if (ReaperSettings.Instance.BaseGCD_BehindFirst)
-                slot.Add(new Spell(SpellsDefine.ExGibbet, SpellTargetType.Target));
+                slot.Add(new Spell(SpellsDefine.Gibbet, SpellTargetType.Target));
             else
-                slot.Add(new Spell(SpellsDefine.ExGallows, SpellTargetType.Target));
+                slot.Add(new Spell(SpellsDefine.Gallows, SpellTargetType.Target));
         }
         else{
             if (ReaperSettings.Instance.BaseGCD_BehindFirst)
-                slot.Add(new Spell(SpellsDefine.ExGallows, SpellTargetType.Target));
+                slot.Add(new Spell(SpellsDefine.Gallows, SpellTargetType.Target));
             else
-                slot.Add(new Spell(SpellsDefine.ExGibbet, SpellTargetType.Target)); 
+                slot.Add(new Spell(SpellsDefine.Gibbet, SpellTargetType.Target)); 
         }
     }
 
@@ -125,9 +124,9 @@ public class Reaper_Opener100 : IOpener
         }
         else{
             if (ReaperSettings.Instance.BaseGCD_BehindFirst)
-                slot.Add(new Spell(SpellsDefine.ExGibbet, SpellTargetType.Target));
+                slot.Add(new Spell(SpellsDefine.Gibbet, SpellTargetType.Target));
             else
-                slot.Add(new Spell(SpellsDefine.ExGallows, SpellTargetType.Target));
+                slot.Add(new Spell(SpellsDefine.Gallows, SpellTargetType.Target));
         }
         
     }

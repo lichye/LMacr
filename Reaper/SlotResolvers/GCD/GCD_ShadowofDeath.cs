@@ -35,7 +35,6 @@ public class GCD_ShadowofDeath : ISlotResolver
             if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign, ReaperSettings.Instance.ShadowofDeath_time))
                 return SpellsDefine.ShadowOfDeath.GetSpell();
 
-            //if an ShadowOfDeath is not enough, then we do a VoidReaping
             if(ReaperBattleData.Instance.DoOneReaping){
                 ReaperBattleData.Instance.DoOneReaping = false;
                 return SpellsDefine.VoidReaping.GetSpell();
@@ -71,9 +70,9 @@ public class GCD_ShadowofDeath : ISlotResolver
         }
 
         // In Double Enshroud Trigger
-        if (ReaperSettings.Instance.DoubleEnshroud){
+        if (ReaperSettings.Instance.DoubleEnshroud&&Core.Me.Level>=90){
             if(SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds < 10000){
-                return -1;
+                return -101;
             }       
         }
 
@@ -97,7 +96,7 @@ public class GCD_ShadowofDeath : ISlotResolver
         }
 
         //Normally not use
-        return -1;
+        return -100;
     }
 
     public void Build(Slot slot)

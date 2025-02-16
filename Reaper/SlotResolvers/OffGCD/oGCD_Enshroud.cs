@@ -59,12 +59,20 @@ public class oGCD_Enshroud : ISlotResolver
             if (!ReaperBattleData.Instance.IsAbleDoubleEnshroud)
                 return -100;
             // preEnshroudTime Check
-            if(SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds < ReaperSettings.Instance.preEnshroudTime){
-                ReaperBattleData.Instance.AutoDoubleEnshroud = true;
-                ReaperBattleData.Instance.DoOneReaping = true;
-                return 2;
+            if(Core.Me.Level >=100){
+                if(SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds < ReaperSettings.Instance.preEnshroudTime){
+                    ReaperBattleData.Instance.AutoDoubleEnshroud = true;
+                    ReaperBattleData.Instance.DoOneReaping = true;
+                    return 2;
+                }
             }
-                
+            else{
+                if(SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds < ReaperSettings.Instance.preEnshroudTime-2500){
+                    ReaperBattleData.Instance.AutoDoubleEnshroud = true;
+                    ReaperBattleData.Instance.DoOneReaping = false;
+                    return 2;
+                }
+            }
         }
 
         //Below is the Auto Enshroud Mode

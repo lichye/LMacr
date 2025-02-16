@@ -109,9 +109,9 @@ public class ReaperRotationEntry : IRotationEntry
         {
             TargetJob = Jobs.Reaper,
             AcrType = AcrType.Both,
-            MinLevel = 100,
+            MinLevel = 1,
             MaxLevel = 100,
-            Description = "镰刀-V0.19",
+            Description = "LM镰刀5.2.16版本 \n支持全等级日随/高难模式",
         };
 
         rot.AddOpener(GetOpener);
@@ -121,12 +121,14 @@ public class ReaperRotationEntry : IRotationEntry
     }
 
     IOpener? GetOpener(uint level)
-    {
-        if(level >= 80)
-        {
-            return new Reaper_Opener100();
-        }
-        return null;
+    {   
+        if(Core.Me.Level>=96)
+            return new Reaper_Opener_100();
+        
+        if(Core.Me.Level>=76)
+            return new Reaper_Opener_80();
+
+        return new Reaper_Opener_70();
     }
     
     public IRotationUI GetRotationUI()
@@ -187,7 +189,7 @@ public class ReaperRotationEntry : IRotationEntry
 
     public void DrawQtGeneral(JobViewWindow jobViewWindow)
     {   
-        ImGui.Text("镰刀-V0.19");
+        ImGui.Text("LM镰刀5.2.15版本");
          if (ReaperSettings.Instance.Normal)
         {
             ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(1.0f, 0.0f, 0.0f, 1.0f)); // 选中时为红色
@@ -239,7 +241,7 @@ public class ReaperRotationEntry : IRotationEntry
             ReaperSettings.Instance.PreHarpe = true;
             ReaperSettings.Instance.AutoEnshroud = true;
             ReaperSettings.Instance.Enshroud_threadhold = 60;
-            ReaperSettings.Instance.ShadowofDeath_time = 3000;
+            ReaperSettings.Instance.ShadowofDeath_time = 3500;
             ReaperSettings.Instance.careAboutPos = true;
             ReaperSettings.Instance.DoubleEnshroud = true;
             ReaperSettings.Instance.StandardShroud = false;
@@ -247,7 +249,8 @@ public class ReaperRotationEntry : IRotationEntry
 
         ImGui.Text("施工方向：");
         ImGui.Text("1. 爆发药支持");
-        ImGui.Text("2. 90级双附体支持");
+        ImGui.Text("2. 身位指示器");
+        ImGui.Text("3. 暴食优化-强制工整循环--120对齐暴食");
     }
 
     public void DrawNormalSetting(JobViewWindow jobViewWindow)

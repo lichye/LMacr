@@ -31,11 +31,6 @@ public class oGCD_ArcaneCircle : ISlotResolver
         // Non-conflict with GCD check
         if (GCDHelper.GetGCDCooldown() < ReaperSettings.Instance.AnimationLock)
             return -2;
-
-         
-        // // Last oGCD check
-        // if (!SpellsDefine.Gluttony.IsReady()&&ReaperSettings.Instance.DoubleEnshroud &&GCDHelper.GetGCDCooldown()> ReaperSettings.Instance.AnimationLock*2)
-        //     return -4;
         
         // Standard Shroud Check
         if (ReaperSettings.Instance.StandardShroud&& GCDHelper.GetGCDCooldown()< ReaperSettings.Instance.AnimationLock*1.2)
@@ -48,6 +43,11 @@ public class oGCD_ArcaneCircle : ISlotResolver
         //If Standard Shroud is enabled, check if the GCD is ready
         if(ReaperSettings.Instance.StandardShroud && GCDHelper.GetGCDCooldown()< 2*ReaperSettings.Instance.AnimationLock)
             return -1;
+
+        // if we are going to DoubleEnshroud, then we might make the ArcaneCircle later
+        if(ReaperBattleData.Instance.AutoDoubleEnshroud)
+            return -100;{
+        }
 
         return 0;
     }
