@@ -66,7 +66,8 @@ public class Reaper_Opener_100 : IOpener
     private static void GCD_1(Slot slot)
     {
         slot.Add(new Spell(SpellsDefine.ShadowOfDeath, SpellTargetType.Target));
-        // slot.Add(Spell.CreatePotion());
+        if(ReaperRotationEntry.QT.GetQt(QTKey.EnableGemdraught))
+            slot.Add(Spell.CreatePotion());
     }
 
 

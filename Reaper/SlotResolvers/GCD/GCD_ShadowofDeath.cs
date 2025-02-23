@@ -40,7 +40,6 @@ public class GCD_ShadowofDeath : ISlotResolver
                 return SpellsDefine.VoidReaping.GetSpell();
             }
                 
-
             //The second usage of ShadowOfDeath,turn off the automatic use of ShadowOfDeath
             ReaperBattleData.Instance.AutoDoubleEnshroud = false;
             return SpellsDefine.ShadowOfDeath.GetSpell();

@@ -19,15 +19,14 @@ public class GCD_PlentifulHarvest : ISlotResolver
         //Buff confiction Check
         if (Core.Me.HasAura(AurasDefine.SoulReaver) || 
             Core.Me.HasAura(AurasDefine.Executioner)||
-            Core.Me.HasAura(AurasDefine.BloodsownCircle) ||
             !Core.Me.HasAura(AurasDefine.ImmortalSacrifice) ||
-            Core.Me.HasAura(AurasDefine.Enshrouded)
+            Core.Me.HasAura(AurasDefine.Enshrouded)||
+            Core.Me.HasMyAuraWithTimeleft(AurasDefine.BloodsownCircle, 1500)
             )
             return -2;
 
-        if (ReaperBattleData.Instance.HoldPlentifulHarvest
-            &&!Core.Me.HasMyAuraWithTimeleft(AurasDefine.ArcaneCircle, 17000))
-            return 1;
+        // if (Core.Me.HasMyAuraWithTimeleft(AurasDefine.ArcaneCircle, 16000))
+        //     return 1;
 
         //Target Distance Check
         if (Core.Me.Distance(Core.Me.GetCurrTarget()) > 15)

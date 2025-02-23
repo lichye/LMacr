@@ -20,6 +20,11 @@ public class oGCD_Enshroud : ISlotResolver
         // Turn off the burst mode
         if(!ReaperRotationEntry.QT.GetQt(QTKey.Burst))
             return -1;
+        
+        // Turn off the Enshroud mode
+        if(!ReaperRotationEntry.QT.GetQt(QTKey.Enshroud))
+            return -1;
+        
         // Level Check
         if(Core.Me.Level < 80)
             return -1;
@@ -107,7 +112,11 @@ public class oGCD_Enshroud : ISlotResolver
 
         //Standard Shroud Trigger
         if(ReaperSettings.Instance.StandardShroud){
-            return 1;
+            // we need to check it conflicts with ArcaneCircle
+            if(SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds < 10000)
+                return -100;
+            else
+                return 1;
         }
 
         

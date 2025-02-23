@@ -76,7 +76,6 @@ public class ReaperRotationEntry : IRotationEntry
         // Enshroud
         
         // Gemdraught 
-        // slot.Add(Spell.CreatePotion());
 
         // Sacrificium
         
@@ -86,6 +85,7 @@ public class ReaperRotationEntry : IRotationEntry
 
         // BloodStalk
         
+        new (new oGCD_Gemdraught(),SlotMode.OffGcd),
         
         new (new oGCD_Enshroud(),SlotMode.OffGcd),
 
@@ -95,7 +95,9 @@ public class ReaperRotationEntry : IRotationEntry
 
         new (new oGCD_Sacrificium(),SlotMode.OffGcd),
 
-        new (new offGCD_Gluttony(),SlotMode.OffGcd),
+        new (new oGCD_TrueNorth(),SlotMode.OffGcd),
+
+        new (new oGCD_Gluttony(),SlotMode.OffGcd),
 
         new (new oGCD_BloodStalk(),SlotMode.OffGcd),
     };
@@ -111,7 +113,7 @@ public class ReaperRotationEntry : IRotationEntry
             AcrType = AcrType.Both,
             MinLevel = 1,
             MaxLevel = 100,
-            Description = "LM镰刀5.2.16版本 \n支持全等级日随/高难模式",
+            Description = "LM镰刀 \n支持全等级亲信/日随/高难",
         };
 
         rot.AddOpener(GetOpener);
@@ -144,16 +146,17 @@ public class ReaperRotationEntry : IRotationEntry
         QT.AddTab("模式设置", DrawQtGeneral);
         QT.AddTab("日随设置", DrawNormalSetting);
         QT.AddTab("高难设置", DrawHighEndSetting);
-        QT.AddTab("Dev", DrawQtDev);
+        QT.AddTab("更新日志", DrawUpdateTimeline);
+        // QT.AddTab("Dev", DrawQtDev);
 
         // 添加QT开关 第二个参数是默认值 (开or关) 第三个参数是鼠标悬浮时的tips
-        // QT.AddQt(QTKey.UsePotion, true);
-        // QT.AddQt(QTKey.Burst, true);
         
         QT.AddQt(QTKey.Burst, true);
         QT.AddQt(QTKey.AOE, true);
         QT.AddQt(QTKey.HarvestMoon, true);
         QT.AddQt(QTKey.Enshroud, true);
+        QT.AddQt(QTKey.EnableGemdraught, true);
+        QT.AddQt(QTKey.AutoTrueNorth, true);
         // QT.GetSave.DoubleEnshroud;
 
         // 添加快捷按钮 (带技能图标)
@@ -189,26 +192,20 @@ public class ReaperRotationEntry : IRotationEntry
 
     public void DrawQtGeneral(JobViewWindow jobViewWindow)
     {   
-        ImGui.Text("LM镰刀5.2.15版本");
-         if (ReaperSettings.Instance.Normal)
-        {
-            ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(1.0f, 0.0f, 0.0f, 1.0f)); // 选中时为红色
+        if (ReaperSettings.Instance.Mate){
+            ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0.1f, 0.1f, 1f, 1.0f)); // 选中时为黄色
             ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Vector4(0.8f, 0.0f, 0.0f, 1.0f));
             ImGui.PushStyleColor(ImGuiCol.ButtonActive, new Vector4(0.6f, 0.0f, 0.0f, 1.0f));
         }
-        else
-        {
+        else{
             ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0.5f, 0.5f, 0.5f, 1.0f)); // 未选中时为灰色
             ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
             ImGui.PushStyleColor(ImGuiCol.ButtonActive, new Vector4(0.7f, 0.7f, 0.7f, 1.0f));
         }
-
-        if (ImGui.Button("日随模式")) {
-            // ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(1.0f, 0.0f, 0.0f, 1.0f)); // 选中时红色
-            // ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Vector4(0.8f, 0.0f, 0.0f, 1.0f));
-            // ImGui.PushStyleColor(ImGuiCol.ButtonActive, new Vector4(0.6f, 0.0f, 0.0f, 1.0f));
-            ReaperSettings.Instance.Normal = true;
+        if (ImGui.Button("亲信模式")) {
+            ReaperSettings.Instance.Normal = false;
             ReaperSettings.Instance.HighEnd = false;
+            ReaperSettings.Instance.Mate = true;
             ReaperSettings.Instance.ArcaneCircle_GCD = 2;
             ReaperSettings.Instance.BaseGCD_BehindFirst = true;
             ReaperSettings.Instance.PreHarpe = false;
@@ -218,6 +215,35 @@ public class ReaperRotationEntry : IRotationEntry
             ReaperSettings.Instance.careAboutPos = false;
             ReaperSettings.Instance.DoubleEnshroud = false;
             ReaperSettings.Instance.StandardShroud = true;
+            ReaperRotationEntry.QT.SetQt(QTKey.EnableGemdraught, false);
+        }
+        ImGui.SameLine();
+        if (ReaperSettings.Instance.Normal)
+        {
+            ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0.1f, 1.0f, 0.1f, 1.0f)); // 选中时为绿色
+            ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Vector4(0.8f, 0.0f, 0.0f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.ButtonActive, new Vector4(0.6f, 0.0f, 0.0f, 1.0f));
+        }
+        else
+        {
+            ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0.5f, 0.5f, 0.5f, 1.0f)); // 未选中时为灰色
+            ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
+            ImGui.PushStyleColor(ImGuiCol.ButtonActive, new Vector4(0.7f, 0.7f, 0.7f, 1.0f));
+        }
+        if (ImGui.Button("日随模式")) {
+            ReaperSettings.Instance.Normal = true;
+            ReaperSettings.Instance.HighEnd = false;
+            ReaperSettings.Instance.Mate = false;
+            ReaperSettings.Instance.ArcaneCircle_GCD = 2;
+            ReaperSettings.Instance.BaseGCD_BehindFirst = true;
+            ReaperSettings.Instance.PreHarpe = false;
+            ReaperSettings.Instance.AutoEnshroud = true;
+            ReaperSettings.Instance.Enshroud_threadhold = 50;
+            ReaperSettings.Instance.ShadowofDeath_time = 5000;
+            ReaperSettings.Instance.careAboutPos = false;
+            ReaperSettings.Instance.DoubleEnshroud = false;
+            ReaperSettings.Instance.StandardShroud = true;
+            ReaperRotationEntry.QT.SetQt(QTKey.EnableGemdraught, false);
         }
         ImGui.SameLine();
         if (ReaperSettings.Instance.HighEnd)
@@ -232,10 +258,10 @@ public class ReaperRotationEntry : IRotationEntry
             ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
             ImGui.PushStyleColor(ImGuiCol.ButtonActive, new Vector4(0.7f, 0.7f, 0.7f, 1.0f));
         }
-
         if (ImGui.Button("高难模式")){
             ReaperSettings.Instance.Normal = false;
             ReaperSettings.Instance.HighEnd = true;
+            ReaperSettings.Instance.Mate = false;
             ReaperSettings.Instance.ArcaneCircle_GCD = 2;
             ReaperSettings.Instance.BaseGCD_BehindFirst = true;
             ReaperSettings.Instance.PreHarpe = true;
@@ -245,12 +271,13 @@ public class ReaperRotationEntry : IRotationEntry
             ReaperSettings.Instance.careAboutPos = true;
             ReaperSettings.Instance.DoubleEnshroud = true;
             ReaperSettings.Instance.StandardShroud = false;
+            ReaperRotationEntry.QT.SetQt(QTKey.EnableGemdraught, true);
         }
 
-        ImGui.Text("施工方向：");
-        ImGui.Text("1. 爆发药支持");
-        ImGui.Text("2. 身位指示器");
-        ImGui.Text("3. 暴食优化-强制工整循环--120对齐暴食");
+        ImGui.Text("施工计划：");
+        ImGui.Text("身位指示器");
+        ImGui.Text("2-8爆发药支持");
+        ImGui.Text("日随更加合理的爆发使用");
     }
 
     public void DrawNormalSetting(JobViewWindow jobViewWindow)
@@ -261,29 +288,66 @@ public class ReaperRotationEntry : IRotationEntry
         ImGui.Text("死亡之影续buff时间");
         ImGui.SliderInt("毫秒", ref ReaperSettings.Instance.ShadowofDeath_time, 1000, 5000);
         ImGui.Checkbox("身位正确则使用身位技能，否则憋着",ref ReaperSettings.Instance.careAboutPos);
-        ImGui.Checkbox("起手打背",ref ReaperSettings.Instance.BaseGCD_BehindFirst);
+        ImGui.Checkbox("起手打背，不勾选打侧",ref ReaperSettings.Instance.BaseGCD_BehindFirst);
     }
 
     public void DrawHighEndSetting(JobViewWindow jobViewWindow)
     {   
-        if (ImGui.CollapsingHeader("说明")){
-            ImGui.Text("高难模式下，默认使用双附体");
-        }
+        ImGui.Text("高难模式下，使用双附体");
+        ImGui.Text("死亡之影续buff时间");
+        ImGui.SliderInt("毫秒", ref ReaperSettings.Instance.ShadowofDeath_time, 1000, 5000);
+
         if (ImGui.CollapsingHeader("起手设置")) {
             ImGui.Text("起手设置 2G/3G");
             ImGui.SameLine();
             ImGui.SliderInt("GCD", ref ReaperSettings.Instance.ArcaneCircle_GCD, 2, 3);
             ImGui.Checkbox("预读勾刃",ref ReaperSettings.Instance.PreHarpe);
-            ImGui.Text("爆发药ID:");
-            ImGui.SameLine();
-            ImGui.InputInt("整数输入", ref ReaperSettings.Instance.Gemdraught_id);
         }
 
-        if(ImGui.CollapsingHeader("身位buff设置")){
-            ImGui.Text("死亡之影续buff时间");
-            ImGui.SliderInt("毫秒", ref ReaperSettings.Instance.ShadowofDeath_time, 1000, 5000);
+        if(ImGui.CollapsingHeader("身位设置")){
             ImGui.Checkbox("身位正确则使用身位技能，否则憋着",ref ReaperSettings.Instance.careAboutPos);
-            ImGui.Checkbox("起手打背",ref ReaperSettings.Instance.BaseGCD_BehindFirst);
+            ImGui.Checkbox("起手打背，不勾选打侧",ref ReaperSettings.Instance.BaseGCD_BehindFirst);
+            
+        }
+
+        if(ImGui.CollapsingHeader("附体设置")){
+            // DrawEnshroudSetting();
+            if (ReaperSettings.Instance.DoubleEnshroud)
+            {
+                ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(1.0f, 0.0f, 0.0f, 1.0f)); // 选中时为红色
+                ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Vector4(0.8f, 0.0f, 0.0f, 1.0f));
+                ImGui.PushStyleColor(ImGuiCol.ButtonActive, new Vector4(0.6f, 0.0f, 0.0f, 1.0f));
+            }
+            else
+            {
+                ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0.5f, 0.5f, 0.5f, 1.0f)); // 未选中时为灰色
+                ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
+                ImGui.PushStyleColor(ImGuiCol.ButtonActive, new Vector4(0.7f, 0.7f, 0.7f, 1.0f));
+            }
+
+            if (ImGui.Button("双附体")) {
+                ReaperSettings.Instance.DoubleEnshroud = true;
+                ReaperSettings.Instance.StandardShroud = false;
+            }
+
+            if (ReaperSettings.Instance.StandardShroud)
+            {
+                ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(1.0f, 0.0f, 0.0f, 1.0f)); // 选中时为红色
+                ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Vector4(0.8f, 0.0f, 0.0f, 1.0f));
+                ImGui.PushStyleColor(ImGuiCol.ButtonActive, new Vector4(0.6f, 0.0f, 0.0f, 1.0f));
+            }
+            else
+            {
+                ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0.5f, 0.5f, 0.5f, 1.0f)); // 未选中时为灰色
+                ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
+                ImGui.PushStyleColor(ImGuiCol.ButtonActive, new Vector4(0.7f, 0.7f, 0.7f, 1.0f));
+            }
+            ImGui.SameLine();
+            if(ImGui.Button("标准附体")){
+                ReaperSettings.Instance.DoubleEnshroud = false;
+                ReaperSettings.Instance.StandardShroud = true;
+            }
+        
             ImGui.Checkbox("自动附体",ref ReaperSettings.Instance.AutoEnshroud);
             ImGui.Text("资源期自动附体多少蓝量触发");
             ImGui.SliderInt("蓝量", ref ReaperSettings.Instance.Enshroud_threadhold, 50, 100);
@@ -292,26 +356,31 @@ public class ReaperRotationEntry : IRotationEntry
     public void DrawQtDev(JobViewWindow jobViewWindow)
     {
         ImGui.Text("画Dev信息");
-        // foreach (var v in jobViewWindow.GetQtArray())
-        // {
-        //     ImGui.Text($"Qt按钮: {v}");
-        // }
-
-        // foreach (var v in jobViewWindow.GetHotkeyArray())
-        // {
-        //     ImGui.Text($"Hotkey按钮: {v}");
-        // }
-        // ImGui.Text($"IsAbleDoubleENshroud:{ReaperBattleData.Instance.IsAbleDoubleEnshroud}");
-        // ImGui.Text($"AnimationLock:{ReaperSettings.Instance.AnimationLock}");
-        // ImGui.Text($"GCD_Time:{ReaperSettings.Instance.GCD_Time}");
-        // ImGui.Text($"ShadowofDeath_time:{ReaperSettings.Instance.ShadowofDeath_time}");
-        // ImGui.Text($"preEnshroudTime:{ReaperSettings.Instance.preEnshroudTime}");
         ImGui.Text($"DoubleEnshroud:{ReaperSettings.Instance.DoubleEnshroud}");
         ImGui.Text($"targetWithoutDeathsDesign:{ReaperBattleData.Instance.targetWithoutDeathsDesign}");
-        ImGui.Text($"HoldPlentifulHarvest:{ReaperBattleData.Instance.HoldPlentifulHarvest}");
         ImGui.Text($"targetNearbyCount:{ReaperBattleData.Instance.targetNearbyCount}");
     }
 
+    public void DrawUpdateTimeline(JobViewWindow jobViewWindow){
+        ImGui.Text("更新日志");
+        ImGui.Text("Feb 23, 2025");
+        ImGui.Text("更新了自动真北逻辑");
+        ImGui.Text("更新了亲信模式");
+        ImGui.Text("优化了团契移动时的替代技能");
+        ImGui.Text("\n");
+        ImGui.Text("Feb 16, 2025");
+        ImGui.Text("修复了爆发药造成的bug");
+        ImGui.Text("\n");
+        ImGui.Text("Feb 15, 2025");
+        ImGui.Text("更新了爆发药逻辑");
+        ImGui.Text("优化了起手逻辑");
+        ImGui.Text("\n");
+        ImGui.Text("Dec 29, 2024");
+        ImGui.Text("更新了开场爆发和双附体");
+        ImGui.Text("\n");
+        ImGui.Text("Dec 25, 2024");
+        ImGui.Text("完成了主体内容");
+    }
     public void Dispose()
     {
     }

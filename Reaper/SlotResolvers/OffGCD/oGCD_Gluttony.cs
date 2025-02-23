@@ -10,7 +10,7 @@ using LM.Reaper.Setting;
 
 namespace LM.Reaper.SlotResolvers.OffGCD;
 
-public class offGCD_Gluttony : ISlotResolver
+public class oGCD_Gluttony : ISlotResolver
 {
     //In this slot resolver，we will use one of the following skills:
     // Gluttony Lv.76

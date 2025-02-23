@@ -13,8 +13,19 @@ public class GCD_Reaping : ISlotResolver
     private Spell GetSpell()
     {
         if (Core.Resolve<JobApi_Reaper>().LemureShroud < 2
-            && SpellsDefine.Communio.IsUnlock())
-            return SpellsDefine.Communio.GetSpell();
+            && SpellsDefine.Communio.IsUnlock()
+            ){
+                if(Core.Me.IsMoving()){
+                    if(Core.Me.HasAura(AurasDefine.Soulsow))
+                        return SpellsDefine.HarvestMoon.GetSpell();
+                    else
+                        return SpellsDefine.ShadowOfDeath.GetSpell();
+                }
+                else{
+                    return SpellsDefine.Communio.GetSpell();
+                }
+            }
+            
 
         if (ReaperRotationEntry.QT.GetQt(QTKey.AOE))
         {

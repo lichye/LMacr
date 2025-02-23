@@ -51,6 +51,8 @@ public class ReaperSettings
 
     public bool Normal = true;
 
+    public bool Mate = false;
+
     public bool PreHarpe = true;
     public bool OpenerNoPos = true;
 
@@ -80,5 +82,5 @@ public class ReaperSettings
     
     public JobViewSave JobViewSave = new(); // QT设置存档
 
-    public int Gemdraught_id = 0;
+    // public int Gemdraught_id = 0;
 }

@@ -56,12 +56,6 @@ public class ReaperRotationEventHandler : IRotationEventHandler
             case SpellsDefine.CrossReaping:
                 AI.Instance.BattleData.CurrGcdAbilityCount = 1;
                 break;
-            case SpellsDefine.ArcaneCircle:
-                ReaperBattleData.Instance.HoldPlentifulHarvest = true;
-                break;
-            case SpellsDefine.PlentifulHarvest:
-                ReaperBattleData.Instance.HoldPlentifulHarvest = false;
-                break;
             default:
                 AI.Instance.BattleData.CurrGcdAbilityCount = 2;
                 break;

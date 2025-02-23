@@ -20,7 +20,6 @@ public class ReaperBattleData
     //This means we are in the process of double enshroud
     public bool AutoDoubleEnshroud = false;
 
-    public bool HoldPlentifulHarvest = false;
     public bool DoOneReaping = false;
 
     public int ShadowOfDeathInEnshroud = 0;

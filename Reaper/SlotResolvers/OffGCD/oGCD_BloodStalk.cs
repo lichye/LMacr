@@ -76,6 +76,15 @@ public class oGCD_BloodStalk : ISlotResolver
         if (Core.Resolve<JobApi_Reaper>().SoulGauge == 100)
             return 1;
 
+        
+        //Gluttony check
+        if (SpellsDefine.Gluttony.CoolDownInGCDs(5) && Core.Resolve<JobApi_Reaper>().SoulGauge < 90 && Core.Me.Level >= 76)
+            return -13;
+
+        //If we have TrueNorth, then we just do it
+        if (Core.Me.HasAura(AurasDefine.TrueNorth))
+            return 1;
+
         //Position check
         if(ReaperSettings.Instance.careAboutPos && Core.Me.GetCurrTarget().HasPositional()){
             //if we are on the back of the Target and we have the aura of EnhancedGibbet, we will not use this solver
@@ -90,16 +99,6 @@ public class oGCD_BloodStalk : ISlotResolver
                 return -12;
             }
         }
-        
-                
-        //Gluttony check
-        if (SpellsDefine.Gluttony.CoolDownInGCDs(5) && Core.Resolve<JobApi_Reaper>().SoulGauge < 100 && Core.Me.Level >= 76)
-            return -13;
-        
-        
-        // if( SpellsDefine.ArcaneCircle.GetSpell().Cooldown.TotalMilliseconds<10000 &&
-        //     Core.Resolve<JobApi_Reaper>().ShroudGauge < 50)
-        //     return 1;
 
         return 0;
     }
