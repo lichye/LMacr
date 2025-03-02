@@ -45,10 +45,6 @@ public class oGCD_Gluttony : ISlotResolver
             SettingMgr.GetSetting<GeneralSettings>().AttackRange)
             return -5;
         
-        // // SoulSlice Check
-        // if (SpellsDefine.SoulSlice.IsReady()&&Core.Resolve<JobApi_Reaper>().SoulGauge<=50)
-        //     return -6;
-
         // DeathsDesign Check
         if (!Core.Me.GetCurrTarget().HasMyAuraWithTimeleft(AurasDefine.DeathsDesign,
             ReaperSettings.Instance.GCD_Time*2+ReaperSettings.Instance.AnimationLock*3))
@@ -62,13 +58,6 @@ public class oGCD_Gluttony : ISlotResolver
             Core.Me.HasAura(AurasDefine.PerfectioParata)
             )
             return -8;
-        
-        // Double Enshroud Check
-        if (ReaperSettings.Instance.DoubleEnshroud)
-        {
-            if(Core.Me.HasAura(AurasDefine.ArcaneCircle))
-                return -9;
-        }
 
         return 0;
     }
