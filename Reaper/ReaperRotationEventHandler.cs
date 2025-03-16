@@ -7,6 +7,7 @@ using AEAssist.Helper;
 using AEAssist.MemoryApi;
 using AEAssist.JobApi;
 using AEAssist.CombatRoutine.Module.Target;
+using AEAssist.CombatRoutine.View;
 
 //Dalamud APIs
 using Dalamud.Game.ClientState.Objects.Types;
@@ -56,6 +57,18 @@ public class ReaperRotationEventHandler : IRotationEventHandler
             case SpellsDefine.CrossReaping:
                 AI.Instance.BattleData.CurrGcdAbilityCount = 1;
                 break;
+            case SpellsDefine.ExGallows:
+                MeleePosHelper.Clear();
+                break;
+            case SpellsDefine.ExGibbet:
+                MeleePosHelper.Clear();
+                break;
+            case SpellsDefine.Gallows:
+                MeleePosHelper.Clear();
+                break;
+            case SpellsDefine.Gibbet:
+                MeleePosHelper.Clear();
+                break;
             default:
                 AI.Instance.BattleData.CurrGcdAbilityCount = 2;
                 break;
@@ -67,6 +80,7 @@ public class ReaperRotationEventHandler : IRotationEventHandler
         UpdateShroudGauge();
         UpdateTargetWithoutDealthDesign();
         UpdateTargetNearbyCount();
+        UpdateMeleePos();
     }
 
     public void OnEnterRotation()
@@ -112,5 +126,55 @@ public class ReaperRotationEventHandler : IRotationEventHandler
     private void UpdateTargetNearbyCount()
     {
         ReaperBattleData.Instance.targetNearbyCount = TargetHelper.GetNearbyEnemyCount(Core.Me, 5, 5);
+    }
+
+    private void UpdateMeleePos(){
+        var t2 = GCDHelper.GetGCDCooldown();
+        
+        if (!ReaperSettings.Instance.DrawPosition){
+            MeleePosHelper.Clear();
+            return;
+        }
+
+        if (Core.Me.HasAura(AurasDefine.Enshrouded)){
+            MeleePosHelper.Clear();
+            return;
+        }
+
+        if  (Core.Me.HasAura(AurasDefine.TrueNorth)){
+            MeleePosHelper.Clear();
+            return;
+        }
+        
+        if (Core.Me.HasAura(AurasDefine.EnhancedGibbet)){
+            if(Core.Resolve<JobApi_Reaper>().SoulGauge >=50)
+                MeleePosHelper.Draw(MeleePosHelper.Pos.Flank, 100);
+            else
+                MeleePosHelper.Clear();
+            if(Core.Me.HasAura(AurasDefine.SoulReaver)||Core.Me.HasAura(AurasDefine.Executioner)){
+                MeleePosHelper.Draw(MeleePosHelper.Pos.Flank, (int)t2 / 25+10);
+            }
+                
+            return;
+        }
+        
+        if (Core.Me.HasAura(AurasDefine.EnhancedGallows)){
+            if(Core.Resolve<JobApi_Reaper>().SoulGauge >=50)
+                MeleePosHelper.Draw(MeleePosHelper.Pos.Behind, 100);
+            else
+                MeleePosHelper.Clear();
+            if(Core.Me.HasAura(AurasDefine.SoulReaver)||Core.Me.HasAura(AurasDefine.Executioner))
+                MeleePosHelper.Draw(MeleePosHelper.Pos.Behind, (int)t2 / 25+10);
+            return;
+        }
+        
+        
+
+        if (ReaperSettings.Instance.BaseGCD_BehindFirst){
+            MeleePosHelper.Draw(MeleePosHelper.Pos.Behind, 100);
+        }else{
+            MeleePosHelper.Draw(MeleePosHelper.Pos.Flank, 100);
+        }
+
     }
 }

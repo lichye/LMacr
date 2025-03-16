@@ -38,6 +38,9 @@ public class GCD_HarvestMoon : ISlotResolver
             Core.Me.HasAura(AurasDefine.ArcaneCircle))
             return -7;
         
+        if (!SpellsDefine.HarvestMoon.IsReady())
+            return -1;
+            
         return 1;
     }
 

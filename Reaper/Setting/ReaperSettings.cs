@@ -82,5 +82,7 @@ public class ReaperSettings
     
     public JobViewSave JobViewSave = new(); // QT设置存档
 
+    public bool DrawPosition = true;
+
     // public int Gemdraught_id = 0;
 }

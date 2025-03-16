@@ -16,6 +16,10 @@ public class oGCD_ArcaneCircle : ISlotResolver
     }
     public int Check()
     {   
+        //Skill Ready Check
+        if (!SpellsDefine.ArcaneCircle.IsReady())
+            return -2;
+
         //if Battletime is too long, then we do not need the opener
         if(AI.Instance.BattleData.CurrBattleTimeInMs < (ReaperSettings.Instance.ArcaneCircle_GCD-1)*ReaperSettings.Instance.GCD_Time-ReaperSettings.Instance.AnimationLock)
             return -100;
@@ -33,16 +37,16 @@ public class oGCD_ArcaneCircle : ISlotResolver
             return -2;
         
         // Standard Shroud Check
-        if (ReaperSettings.Instance.StandardShroud&& GCDHelper.GetGCDCooldown()< ReaperSettings.Instance.AnimationLock*1.2)
-            return -3;
+        if (ReaperSettings.Instance.StandardShroud){
+            //if time is limited, then we do not need the opener
+            if (GCDHelper.GetGCDCooldown() < ReaperSettings.Instance.AnimationLock*1.2)
+                return -3;
+            if (!SpellsDefine.Gluttony.CoolDownInGCDs(1))
+                return -4;
+            //if it is not match up with Gluttony, then we do not need the opener
+        }
         
-        //Skill Ready Check
-        if (!SpellsDefine.ArcaneCircle.IsReady())
-            return -2;
 
-        //If Standard Shroud is enabled, check if the GCD is ready
-        if(ReaperSettings.Instance.StandardShroud && GCDHelper.GetGCDCooldown()< 2*ReaperSettings.Instance.AnimationLock)
-            return -1;
 
         // if we are going to DoubleEnshroud, then we might make the ArcaneCircle later
         if(ReaperBattleData.Instance.AutoDoubleEnshroud)

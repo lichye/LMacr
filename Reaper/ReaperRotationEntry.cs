@@ -143,10 +143,33 @@ public class ReaperRotationEntry : IRotationEntry
         QT = new JobViewWindow(ReaperSettings.Instance.JobViewSave, ReaperSettings.Instance.Save, "LM Reaper-V0.5");
         QT.SetUpdateAction(OnUIUpdate); // 设置QT中的Update回调 不需要就不设置
         //添加QT分页 第一个参数是分页标题 第二个是分页里的内容
-        QT.AddTab("模式设置", DrawQtGeneral);
-        QT.AddTab("日随设置", DrawNormalSetting);
-        QT.AddTab("高难设置", DrawHighEndSetting);
-        QT.AddTab("更新日志", DrawUpdateTimeline);
+        try{
+            QT.AddTab("模式设置", DrawQtGeneral);
+        }
+        catch(Exception e){
+            LogHelper.Print(e.Message);
+        }
+
+        try{
+            QT.AddTab("日随设置", DrawNormalSetting);
+        }
+        catch(Exception e){
+            LogHelper.Print(e.Message);
+        }
+        
+        try{
+            QT.AddTab("高难设置", DrawHighEndSetting);
+        }
+        catch(Exception e){
+            LogHelper.Print(e.Message);
+        }
+        
+        try{
+            QT.AddTab("更新日志", DrawUpdateTimeline);
+        }
+        catch(Exception e){
+            LogHelper.Print(e.Message);
+        }
         // QT.AddTab("Dev", DrawQtDev);
 
         // 添加QT开关 第二个参数是默认值 (开or关) 第三个参数是鼠标悬浮时的tips
@@ -215,8 +238,10 @@ public class ReaperRotationEntry : IRotationEntry
             ReaperSettings.Instance.careAboutPos = false;
             ReaperSettings.Instance.DoubleEnshroud = false;
             ReaperSettings.Instance.StandardShroud = true;
+            ReaperSettings.Instance.DrawPosition = false;
             ReaperRotationEntry.QT.SetQt(QTKey.EnableGemdraught, false);
         }
+        ImGui.PopStyleColor(3);
         ImGui.SameLine();
         if (ReaperSettings.Instance.Normal)
         {
@@ -243,9 +268,11 @@ public class ReaperRotationEntry : IRotationEntry
             ReaperSettings.Instance.careAboutPos = false;
             ReaperSettings.Instance.DoubleEnshroud = false;
             ReaperSettings.Instance.StandardShroud = true;
+            ReaperSettings.Instance.DrawPosition = true;
             ReaperRotationEntry.QT.SetQt(QTKey.EnableGemdraught, false);
         }
         ImGui.SameLine();
+        ImGui.PopStyleColor(3);
         if (ReaperSettings.Instance.HighEnd)
         {
             ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(1.0f, 0.0f, 0.0f, 1.0f)); // 选中时为红色
@@ -271,8 +298,11 @@ public class ReaperRotationEntry : IRotationEntry
             ReaperSettings.Instance.careAboutPos = true;
             ReaperSettings.Instance.DoubleEnshroud = true;
             ReaperSettings.Instance.StandardShroud = false;
+            ReaperSettings.Instance.DrawPosition = false;
             ReaperRotationEntry.QT.SetQt(QTKey.EnableGemdraught, true);
         }
+
+        ImGui.PopStyleColor(3);
 
         ImGui.Text("施工计划：");
         ImGui.Text("身位指示器");
@@ -289,6 +319,7 @@ public class ReaperRotationEntry : IRotationEntry
         ImGui.SliderInt("毫秒", ref ReaperSettings.Instance.ShadowofDeath_time, 1000, 5000);
         ImGui.Checkbox("身位正确则使用身位技能，否则憋着",ref ReaperSettings.Instance.careAboutPos);
         ImGui.Checkbox("起手打背，不勾选打侧",ref ReaperSettings.Instance.BaseGCD_BehindFirst);
+        ImGui.Checkbox("身位指示器",ref ReaperSettings.Instance.DrawPosition);
     }
 
     public void DrawHighEndSetting(JobViewWindow jobViewWindow)
@@ -307,6 +338,7 @@ public class ReaperRotationEntry : IRotationEntry
         if(ImGui.CollapsingHeader("身位设置")){
             ImGui.Checkbox("身位正确则使用身位技能，否则憋着",ref ReaperSettings.Instance.careAboutPos);
             ImGui.Checkbox("起手打背，不勾选打侧",ref ReaperSettings.Instance.BaseGCD_BehindFirst);
+            ImGui.Checkbox("身位指示器",ref ReaperSettings.Instance.DrawPosition);
             
         }
 
@@ -324,11 +356,14 @@ public class ReaperRotationEntry : IRotationEntry
                 ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
                 ImGui.PushStyleColor(ImGuiCol.ButtonActive, new Vector4(0.7f, 0.7f, 0.7f, 1.0f));
             }
-
-            if (ImGui.Button("双附体")) {
+            if (ImGui.Button("120双附体")) {
                 ReaperSettings.Instance.DoubleEnshroud = true;
                 ReaperSettings.Instance.StandardShroud = false;
             }
+
+            ImGui.PopStyleColor(3);
+
+            ImGui.SameLine();
 
             if (ReaperSettings.Instance.StandardShroud)
             {
@@ -342,11 +377,12 @@ public class ReaperRotationEntry : IRotationEntry
                 ImGui.PushStyleColor(ImGuiCol.ButtonHovered, new Vector4(0.6f, 0.6f, 0.6f, 1.0f));
                 ImGui.PushStyleColor(ImGuiCol.ButtonActive, new Vector4(0.7f, 0.7f, 0.7f, 1.0f));
             }
-            ImGui.SameLine();
-            if(ImGui.Button("标准附体")){
+            
+            if(ImGui.Button("暴食工整轴")){
                 ReaperSettings.Instance.DoubleEnshroud = false;
                 ReaperSettings.Instance.StandardShroud = true;
             }
+            ImGui.PopStyleColor(3);
         
             ImGui.Checkbox("自动附体",ref ReaperSettings.Instance.AutoEnshroud);
             ImGui.Text("资源期自动附体多少蓝量触发");
