@@ -19,7 +19,7 @@ public class GCD_SoulSlice : ISlotResolver
 
         {
             var aoeCount = TargetHelper.GetNearbyEnemyCount(Core.Me, 5, 5);
-            if (aoeCount >= 3)
+            if (aoeCount >= 3 && Core.Me.Level >= 65)
                 return SpellsDefine.SoulScythe.GetSpell();
         }
 
